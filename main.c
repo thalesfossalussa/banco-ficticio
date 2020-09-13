@@ -43,14 +43,15 @@ int verifica_cpf(int *cpf){
 
 int verifica(){
     int c;
-    
     int *cpf;
+
     cpf=(int*)calloc(11,sizeof(int));
-        
+    
     for(c=0;c<11;c++){
         scanf("%d", &cpf[c]);
     }
-    verifica_cpf;
+
+    verifica_cpf(cpf);
     
     free(cpf);
     
@@ -63,14 +64,13 @@ int main() {
 
 	switch(select) {
 		case 1:
-		printf("Foi escolhido o 1\n");
+			printf("Foi escolhido o 1\n");
 	break;
-        case 2:
-            verifica;
-		printf("Foi escolhido o 2\n");
+		case 2:
+			verifica();
 	break;
 		case 3:
-		printf("Foi escolhido o 3\n");
+			printf("Foi escolhido o 3\n");
 	break;
 	}
 
