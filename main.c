@@ -4,7 +4,7 @@ void printMenu(int * select) {
 
 	printf("Menu\n");
 	printf("1 - Gerar uma conta\n");
-	printf("2 - Gerar um CPF\n");
+	printf("2 - Verificador de CPF\n");
 	printf("3 - Gerar um RG\n");
 	
 	while(*select < 1 || *select > 3){
