@@ -50,6 +50,7 @@ void criar_conta(int * select){
     conta=cpf*aaaa/1000000000;
     printf("Media salarial:\n");
     scanf("&d", &sal);
+    cred=sal*0.05;
 
     printf("Ok, agora para algumas informacoes sobre sua conta.\nSeu numero de conta e >%d<\nPor favor, Crie uma senha de 4 digitos:\n",conta);
     scanf("%d", &senha1);
