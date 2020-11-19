@@ -76,55 +76,7 @@ void criar_conta(int * select){
 
     select=0;
 	printMenu(select);	
-
-    
-
 }
-
-/*int verifica_cpf(int *cpf){
-    int c, k=10, d1=0, d2=0;
-    
-    for(c=0;c<9;c++){
-        d1=d1+cpf[c]*k;
-        k--;
-    }
-    d1=(d1*10)%11;
-    k=11;
-    if(d1==cpf[9]){
-        for(c=0;c<10;c++){
-            d2=d2+cpf[c]*k;
-            k--;
-        }
-        d2=(d2*10)%11;
-        if(d2==cpf[10]){
-            printf("cpf valido\n");
-            return 1;
-        } else {
-            printf("cpf invalido\n");
-            return 0;
-        }
-    } else {
-        printf("cpf invalido\n");
-        return 0;
-    }
-}
-
-int verifica(){
-    int c;
-    int *cpf;
-
-    cpf=(int*)calloc(11,sizeof(int));
-    
-    for(c=0;c<11;c++){
-        scanf("%d", &cpf[c]);
-    }
-
-    verifica_cpf(cpf);
-    
-    free(cpf);
-    
-    return 0;
-}*/
 
 int main() {
 	int select = 0;
