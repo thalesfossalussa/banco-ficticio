@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <mysql/mysql.h>
 
 void info(){
     printf("\n\n\n\nPrograma feito como trabalho final da materia de AED1 pelo curso de Ciencias da Computacao, UFG\nCriadores:Joao Paulo Lopes de Carvalho Grilo e Thales fossalussa\n11/2020\n\n\n\n");
@@ -33,23 +35,23 @@ void criar_conta(int * select){
     printf("Que otimo que decidiu se juntar a nos. Por favor, informe-nos dos seus seguintes dados:\n\n");
     printf("CPF:\n");
     scanf("%d", &cpf);
-    while(!cpf>9999999999){
+    while(!cpf>=pow(10,10)){
         printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
         printf("|CPF invalido! Por favor, insira novamente.|\n");
         printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
         scanf("%d", &cpf);
     }
-    printf("Data de nascimento no seguinte formato dd/mm/aaaa:\n");
+    printf("Data de nascimento no seguinte formato dd mm aaaa:\n");
     scanf("%d %d %d", &dd, &mm, &aaaa);
     while(!dd>0 && !dd<31 && !mm>0 && !mm<12 && !aaaa>2012){
-        printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
-        printf("|Data de nasciemento invalida! Por favor, insira novamente.|\n");
-        printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
+        printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
+        printf("|Data de nascimento invalida! Por favor, insira novamente.|\n");
+        printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
         scanf("%d %d %d", &dd, &mm, &aaaa);
     }
-    conta=cpf*aaaa/1000000000;
-    printf("Media salarial:\n");
-    scanf("&d", &sal);
+    conta=cpf*aaaa/pow(10,10);
+    printf("Media salarial: ");
+    scanf("%d", &sal);
     cred=sal*0.05;
 
     printf("Ok, agora para algumas informacoes sobre sua conta.\nSeu numero de conta e >%d<\nPor favor, Crie uma senha de 4 digitos:\n",conta);
@@ -79,11 +81,31 @@ void criar_conta(int * select){
 	printMenu(select);	
 }
 
+// Funções do banco de dados mysql
+int verificar(MYSQL * con) {
+    if(con == NULL){
+        printf("%s\n", mysql_error(con));
+        return 0;
+    } else return 1;
+}
+
+int conectar(MYSQL * con){
+    if(mysql_real_connect(con, "localhost", "thales", "", NULL, 0, NULL, 0) == NULL){
+        printf("%s\n", mysql_error(con));
+        mysql_close(con);
+        return 0;
+    } else return 1;
+}
+
 int main() {
 	int select = 0;
-	printMenu(&select);	
+    int fechar = 0;
+	printMenu(&select);
+    MYSQL *con = mysql_init(NULL);
 
-	while(1){
+    if (verificar(con) == 0 || conectar(con) == 0) return 0;
+
+	while(fechar == 0){
         switch(select) {
             case 1://acessa a conta
                 printf("Foi escolhido o 1\n");
@@ -108,10 +130,11 @@ int main() {
             case 5://encerra o programa
                 printf("Ate a proxima! :)\n");
                 
-                return 0;
+                fechar = 1;
         break;
 	    }
     }
 
+    mysql_close(con);
 	return 0;
 }
