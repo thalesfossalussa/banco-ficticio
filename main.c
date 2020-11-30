@@ -81,27 +81,10 @@ void criar_conta(int * select){
 	printMenu(select);	
 }
 
-// Funções do banco de dados mysql
-int verificar(MYSQL * con) {
-    if(con == NULL){
-        printf("%s\n", mysql_error(con));
-        return 0;
-    } else return 1;
-}
-
-int conectar(MYSQL * con){
-    if(mysql_real_connect(con, "localhost", "thales", "", NULL, 0, NULL, 0) == NULL){
-        printf("%s\n", mysql_error(con));
-        mysql_close(con);
-        return 0;
-    } else return 1;
-}
-
 int main() {
 	int select = 0;
     int fechar = 0;
 	printMenu(&select);
-    MYSQL *con = mysql_init(NULL);
 
     if (verificar(con) == 0 || conectar(con) == 0) return 0;
 
@@ -135,6 +118,5 @@ int main() {
 	    }
     }
 
-    mysql_close(con);
 	return 0;
 }
