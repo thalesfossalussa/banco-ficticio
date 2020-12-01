@@ -86,8 +86,6 @@ int main() {
     int fechar = 0;
 	printMenu(&select);
 
-    if (verificar(con) == 0 || conectar(con) == 0) return 0;
-
 	while(fechar == 0){
         switch(select) {
             case 1://acessa a conta
