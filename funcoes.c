@@ -224,8 +224,7 @@ void login(BANCO* l){ //busca pelo banco uma conta que tenha o nconta e senha ig
     }
 }
 
-void printMenu(int select) {
-
+void printMenu(void) {
     printf("---------------------------------\n");
 	printf("Menu\n");
     printf("---------------------------------\n");
@@ -239,8 +238,4 @@ void printMenu(int select) {
     printf("---------------------------------\n");
     printf("5 - fechar\n");
     printf("---------------------------------\n");
-
-	while(select < 1 || select > 5){
-		scanf("%d", &select);
-	}
 }
