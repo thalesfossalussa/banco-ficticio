@@ -2,31 +2,12 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
+#include <math.h>
+#include "funcoes.h"
 
-typedef struct {
-    char nome[30];
-    int cpf;
-    int dia;
-    int mes;
-    int ano;
-    int salario;
-    int saldo;
-    int credito;
-    int divida;
-    int conta;
-    int senha;
-} REGISTRO; //struct que abriga os dados da conta/registro do cliente
-    
-typedef struct aux {
-    REGISTRO reg;
-    struct aux* prox;
-} ELEMENTO; 
-
-typedef ELEMENTO* PONT;
-
-typedef struct {
-    PONT inicio;
-} BANCO;
+void info(void){
+    printf("teste\n");
+}
 
 void inicializarBanco(BANCO* l){
 l->inicio = NULL;
@@ -74,7 +55,7 @@ void inserirConta(BANCO* l) {
 
     printf("---------------------------------------------------------------------------------------------------\n");
     printf("Ok, para comecarmos nos diga o seu nome:\n");
-    scanf("%s", &nome);
+    scanf("%s", nome);
     while(c=0){
         printf("Senhor(a) %s\nCaso tenha errado, basta digitar 0, caso esteja correto, digite 1?", i->reg.nome);
         scanf("%d", &c);
@@ -104,12 +85,12 @@ void inserirConta(BANCO* l) {
     if(i->reg.conta>99999) i->reg.conta=i->reg.conta/10;//considerando que a conta máxima pode ser 201199, faz se necessária essa divisão
     
     printf("Media salarial mensal:\n");
-    scanf("&d", &i->reg.salario);
+    scanf("%d", &i->reg.salario);
     i->reg.saldo=i->reg.salario;
     i->reg.credito=i->reg.salario*0.2;
 
 
-    printf("Ok, %s, agora para algumas informacoes sobre sua conta.\nSeu numero de conta e >%d<\nPor favor, Crie uma senha de 4 digitos:\n", i->reg.ano, i->reg.conta);
+    printf("Ok, %d, agora para algumas informacoes sobre sua conta.\nSeu numero de conta e >%d<\nPor favor, Crie uma senha de 4 digitos:\n", i->reg.ano, i->reg.conta);
     scanf("%d", &senha1);
     while(1){
         printf("Confirme sua senha:\n");
@@ -132,7 +113,7 @@ void inserirConta(BANCO* l) {
     }
     printf("Confirmado!\n\n");
     printf("|--------------------------------------------------------------------------------------------------------------------------------|\n");
-    printf("|Seja bem vindo ao banco Pequi, %s, para mais informacoes, acessar a opcao *info* no menu inicial. O banco Pequi agradece sua escolha|\n");
+    printf("|Seja bem vindo ao banco Pequi, %s, para mais informacoes, acessar a opcao *info* no menu inicial. O banco Pequi agradece sua escolha|\n", nome);
     printf("|--------------------------------------------------------------------------------------------------------------------------------|\n\n\n");
 
     return;
@@ -217,11 +198,4 @@ void login(BANCO* l){ //busca pelo banco uma conta que tenha o nconta e senha ig
         printf("Numero de conta ou senha incorretos ou inexistentes, tente novamente.\n");
         printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n"); //ciclo recomeçado
     }
-}
-
-
-
-int main(){
-
-    return 0;
 }
