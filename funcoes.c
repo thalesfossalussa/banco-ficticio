@@ -106,16 +106,16 @@ void inserirConta(BANCO* l) {
                 break;
             }
             else{
-                printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
-                printf("|As senhas não batem. Tente novamente ou digite >0< para recriar a senha.|\n");
-                printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
+                printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                printf("As senhas não batem. Tente novamente ou digite >0< para recriar a senha.\n");
+                printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
             }
         }
     }
     printf("Confirmado!\n\n");
-    printf("|--------------------------------------------------------------------------------------------------------------------------------|\n");
+    printf("|------------------------------------------------------------------------------------------------------------------------------------|\n");
     printf("|Seja bem vindo ao banco Pequi, %s, para mais informacoes, acessar a opcao *info* no menu inicial. O banco Pequi agradece sua escolha|\n", nome);
-    printf("|--------------------------------------------------------------------------------------------------------------------------------|\n\n\n");
+    printf("|------------------------------------------------------------------------------------------------------------------------------------|\n\n\n");
 
     return;
 }
@@ -133,8 +133,21 @@ void excluirConta(BANCO* l, int cpf) { //busca o cpf do titular para exluir a co
     free(atual); //excluíndo posição
 }
 
-void transferencia(){
-
+void transferencia(BANCO* l, int transferido){
+    int ctrans;
+    PONT cont = l->inicio;
+    printf("Digite o numero da conta a receber a transferencia.\n");
+    scanf("%d", &ctrans);
+    while(cont->prox!=NULL){
+        if(ctrans==cont->reg.conta){ 
+        cont->reg.saldo=cont->reg.saldo+transferido;
+        break;
+        }
+    }
+    if(cont->prox==NULL){
+        printf("Conta inexistente!\n");
+        return ;
+    }
 
 }
 
@@ -190,14 +203,13 @@ void operacoes(BANCO* l, int nconta){
             break;
         
         case 4:
-        printf("Voce tem RS:%d disponiveis\nValor a ser transferido: ", conta->reg.saldo);
+        printf("Voce tem RS:%d disponiveis\nValor a ser transferido RS:", conta->reg.saldo);
         scanf("%d", &pagamento);
         printf("\n");
         if(pagamento>conta->reg.saldo) printf("Saldo insuficiente!\n");
         else{
-                
-
-            
+            conta->reg.saldo=conta->reg.saldo-pagamento;
+            transferencia(l, pagamento);
         }
 
             break;
@@ -241,7 +253,7 @@ void operacoes(BANCO* l, int nconta){
                 if(pagamento==0) break;
             } else { 
                 excluirConta(l, conta->reg.cpf);
-                printf("Obrigado pelo tempo conosto, ate breve\n");
+                printf("Obrigado pelo seu tempo conosto, ate breve.\n");
                 return ;
             }
         }
@@ -252,7 +264,7 @@ void operacoes(BANCO* l, int nconta){
             return ;
             break;
         default:
-            printf("Operacao invalida, tente novamente\n");
+            printf("Operacao invalida, tente novamente.\n");
             break;
         }
     }
