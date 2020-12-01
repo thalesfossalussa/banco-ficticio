@@ -133,6 +133,11 @@ void excluirConta(BANCO* l, int cpf) { //busca o cpf do titular para exluir a co
     free(atual); //excluíndo posição
 }
 
+void transferencia(){
+
+
+}
+
 
 void operacoes(BANCO* l, int nconta){
     int a=0, pagamento, ccpf, csenha;
@@ -159,58 +164,78 @@ void operacoes(BANCO* l, int nconta){
         switch (a)
         {
         case 1:
-        printf("Seu saldo e de RS:%d.", conta->reg.saldo);
+        printf("Seu saldo e de RS:%d.\n", conta->reg.saldo);
             break;
+        
         case 2:
         printf("Voce tem RS:%d disponiveis\nValor do pagamento: ", conta->reg.saldo);
         scanf("%d", &pagamento);
-        if(pagamento>conta->reg.saldo) printf("Sem saldo disponivel!\n"); 
+        printf("\n");
+        if(pagamento>conta->reg.saldo) printf("Saldo insuficiente!\n");
         else{
             conta->reg.saldo=(conta->reg.saldo) - pagamento;
-            printf("\nSeu novo saldo e de RS:%d", conta->reg.saldo);
+            printf("\nSeu novo saldo e de RS:%d\n", conta->reg.saldo);
         }
             break;
+        
         case 3:
         printf("Voce tem RS:%d disponiveis\nValor do saque: ", conta->reg.saldo);
         scanf("%d", &pagamento);
-        if(pagamento>conta->reg.saldo) printf("Sem saldo disponivel!\n"); 
+        printf("\n");
+        if(pagamento>conta->reg.saldo) printf("Saldo insuficiente!\n");
         else{
             conta->reg.saldo=(conta->reg.saldo) - pagamento;
             printf("\nSeu novo saldo e de RS:%d", conta->reg.saldo);
         }
             break;
+        
         case 4:
+        printf("Voce tem RS:%d disponiveis\nValor a ser transferido: ", conta->reg.saldo);
+        scanf("%d", &pagamento);
+        printf("\n");
+        if(pagamento>conta->reg.saldo) printf("Saldo insuficiente!\n");
+        else{
+                
+
+            
+        }
+
             break;
+       
         case 5:
-        printf("Seu limite é de RS:%d.", conta->reg.credito);
+        printf("Seu limite é de RS:%d.\n", conta->reg.credito);
             break;
+      
         case 6:
         printf("Voce tem RS:%d de credito disponivel\nValor do pagamento: ", conta->reg.credito-conta->reg.divida);
         scanf("%d", &pagamento);
-        if((conta->reg.divida + pagamento)>conta->reg.credito) printf("Sem credito disponivel!\n"); 
+        printf("\n");
+        if((conta->reg.divida + pagamento)>conta->reg.credito) printf("Credito insuficiente!\n"); 
         else{
             conta->reg.divida=(conta->reg.divida) + pagamento;
             printf("\nCredito disponivel RS:%d.", conta->reg.saldo - conta->reg.divida);
         }
             break;
+      
         case 7:
         printf("Voce tem um total de RS%d de credito a ser pago.\nDeseja pagar? (1 para sim | 0 para não)\n", conta->reg.divida);
         scanf("%d", &pagamento);
         if(pagamento==0) break;
         if(pagamento==1){
-            if(conta->reg.divida>conta->reg.saldo) printf("Sem saldo disponivel!\n");
+            if(conta->reg.divida>conta->reg.saldo) printf("Saldo insuficiente!\n");
             else{
                 conta->reg.saldo=conta->reg.saldo-conta->reg.divida;
-                printf("Pagamento feito com sucesso!\nNovo saldo disponivel RS:%d.",conta->reg.saldo);
+                printf("Pagamento feito com sucesso!\nNovo saldo disponivel RS:%d.\n",conta->reg.saldo);
             }
         }
             break;
+    
         case 8:
         printf("Certo, primeiro precisamos que voce confirme seu cpf e data de nascimento\n");
         while(ccpf!=conta->reg.cpf || csenha!=conta->reg.senha){
             scanf("%d %d", &ccpf, &csenha);
             if(ccpf!=conta->reg.cpf || csenha!=conta->reg.senha){
-                printf("Dados incorretos, deseja tentar novamente?\n1 para sim, 0 para não:");
+                printf("Dados incorretos, deseja tentar novamente?\n1 para sim, 0 para não.\n");
                 scanf("%d",&pagamento);
                 printf("\n");
                 if(pagamento==0) break;
@@ -221,6 +246,7 @@ void operacoes(BANCO* l, int nconta){
             }
         }
             break;
+ 
         case 9:
             printf("Obrigado, volte sempre.\n");
             return ;
