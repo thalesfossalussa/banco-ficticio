@@ -91,7 +91,7 @@ void inserirConta(BANCO* l) {
     i->reg.divida=0;
 
 
-    printf("Ok, %d, agora para algumas informacoes sobre sua conta.\nSeu numero de conta e >%d<\nPor favor, Crie uma senha de 4 digitos:\n", i->reg.ano, i->reg.conta);
+    printf("Ok, %s, agora para algumas informacoes sobre sua conta.\nSeu numero de conta e >%d<\nPor favor, Crie uma senha de 4 digitos:\n", i->reg.nome, i->reg.conta);
     scanf("%d", &senha1);
     while(1){
         printf("Confirme sua senha:\n");
