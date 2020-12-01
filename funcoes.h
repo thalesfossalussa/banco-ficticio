@@ -45,8 +45,12 @@ void inserirConta(BANCO* l);
 // Exclui uma conta do BANCO
 void excluirConta(BANCO* l, int cpf);
 
+<<<<<<< HEAD
 // Menu para operações bancárias
 void operacoes(PONT* l);
+=======
+void operacoes(BANCO* l, int nconta);
+>>>>>>> a30b5de87843613c7c515703097e73bf341d01da
 
 // Login com a conta
 void login(BANCO* l);
