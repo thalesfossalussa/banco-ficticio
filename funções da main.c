@@ -49,7 +49,7 @@ PONT buscarConta(BANCO* l, int cpf, PONT* ant){ //retorna o pontero que aponta p
     *ant = atual;
     atual = atual->prox;
     }
-    if ((atual != NULL) && (atual->reg.chave == ch)) return atual;
+    if ((atual != NULL) && (atual->reg.cpf == cpf)) return atual;
     return NULL;
 }
 
@@ -60,7 +60,7 @@ void inserirConta(BANCO* l) {
     tam = tamanhoBanco(l);
     ant = l->inicio;
     
-    while(ant-prox!=NULL) ant = ant->prox; //acha o ultimo elemento da lista que aponta para NULL
+    while(ant->prox!=NULL) ant = ant->prox; //acha o ultimo elemento da lista que aponta para NULL
     
     i = (PONT) malloc(sizeof(ELEMENTO)); //aloca nova conta
     ant->prox=i; //faz com que o antigo ultimo elemento aponte para a nova conta, que se torna o novo ultimo elemento
@@ -79,13 +79,13 @@ void excluirConta(BANCO* l, int cpf) { //busca o cpf do titular para exluir a co
     PONT ant, atual;
     atual = l->inicio;
     ant = NULL;
-    while(i->reg.cpf!=cpf){ //caso os cpfs não batam o laço continua
+    while(l->inicio->reg.cpf != cpf){ //caso os cpfs não batam o laço continua
         ant=atual; //o anterior se torna o atual   
         atual=atual->prox; //o atual se torna o próximo
     }
-    if (ant == NULL) l->inicio = l->prox; //caso o anterior seja NULL, o atual já é o primeiro, logo só informamos que a lista começa a partir do segundo elemento
+    if (ant == NULL) l->inicio = l->inicio->prox; //caso o anterior seja NULL, o atual já é o primeiro, logo só informamos que a lista começa a partir do segundo elemento
     else ant->prox = atual->prox; //caso o anterior não seja null, informamos que o próximo dele será o próximo do próximo, pulando uma posição que será exluída 
-    free(i); //excluíndo posição
+    free(l); //excluíndo posição
 }
 
 void login(BANCO* l){ //busca pelo banco uma conta que tenha o nconta e senha iguais aos informados
@@ -122,10 +122,31 @@ void operacoes(BANCO* l){
     printf("Digite 5 para consultar seu credito.\n");
     printf("Digite 6 para realizar um pagamento com credito.\n");
     printf("Digite 7 para realizar o pagamento da sua conta de credito.\n");
-    printf("Digite 8 caso deseje encerrar sua conta.\n")
+    printf("Digite 8 caso deseje encerrar sua conta.\n");
     printf("-----------------------------------------------------------\n");
     while((a<1) && (a>8)){
         scanf("%d", &a);
-        if((a<1) && (a>8)) printf("Opção invalida. Tente novamente.\n")
+        switch (a)
+        {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        case 6:
+            break;
+        case 7:
+            break;
+        case 8:
+            break;
+        default:
+            printf("Operacao invalida, tente novamente\n");
+            break;
+        }
     }
 }
