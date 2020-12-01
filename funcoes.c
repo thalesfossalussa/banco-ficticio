@@ -152,6 +152,7 @@ void operacoes(BANCO* l, int nconta){
     printf("Digite 6 para realizar um pagamento com credito.\n");
     printf("Digite 7 para realizar o pagamento da sua conta de credito.\n");
     printf("Digite 8 caso deseje encerrar sua conta.\n");
+    printf("Digite 9 caso deseje sair.\n");
     printf("-----------------------------------------------------------\n");
     while((a<1) && (a>8)){
         scanf("%d", &a);
@@ -186,12 +187,29 @@ void operacoes(BANCO* l, int nconta){
         case 6:
         printf("Voce tem RS:%d de credito disponivel\nValor do pagamento: ", conta->reg.credito-conta->reg.divida);
         scanf("%d", &pagamento);
-        conta->reg.divida=(conta->reg.divida) + pagamento;
-        printf("\nVoce ainda tem RS:%d de limite.", conta->reg.saldo);
+        if((conta->reg.divida + pagamento)>conta->reg.credito) printf("Sem credito disponivel!\n"); 
+        else{
+            conta->reg.divida=(conta->reg.divida) + pagamento;
+            printf("\nCredito disponivel RS:%d.", conta->reg.saldo - conta->reg.divida);
+        }
             break;
         case 7:
+        printf("Voce tem um total de RS%d de credito a ser pago.\nDeseja pagar? (1 para sim | 0 para não)\n", conta->reg.divida);
+        scanf("%d", &pagamento);
+        if(pagamento==0) break;
+        if(pagamento==1){
+            if(conta->reg.divida>conta->reg.saldo) printf("Sem saldo disponivel!\n");
+            else{
+                conta->reg.saldo=conta->reg.saldo-conta->reg.divida;
+                printf("Pagamento feito com sucesso!\nNovo saldo disponivel RS:%d.",conta->reg.saldo);
+            }
+        }
             break;
         case 8:
+            break;
+        case 9:
+            printf("Obrigado, volte sempre.\n");
+            return ;
             break;
         default:
             printf("Operacao invalida, tente novamente\n");
