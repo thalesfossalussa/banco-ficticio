@@ -171,7 +171,27 @@ void operacoes(PONT* l){
     printf("-----------------------------------------------------------\n");
     while((a<1) && (a>8)){
         scanf("%d", &a);
-        if((a<1) && (a>8)) printf("Opção invalida. Tente novamente.\n");
+        switch (a){
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        case 6:
+            break;
+        case 7:
+            break;
+        case 8:
+            break;
+        default:
+            printf("Opção invalida. Tente novamente.\n");
+            break;
+        }
     }
 }
 
