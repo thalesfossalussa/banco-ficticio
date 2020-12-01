@@ -135,7 +135,7 @@ void excluirConta(BANCO* l, int cpf) { //busca o cpf do titular para exluir a co
 
 
 void operacoes(BANCO* l, int nconta){
-    int a=0, pagamento;
+    int a=0, pagamento, ccpf, csenha;
     PONT conta=l->inicio;
     while(conta->prox!=NULL){
         if(conta->reg.conta==nconta) break;
@@ -206,6 +206,20 @@ void operacoes(BANCO* l, int nconta){
         }
             break;
         case 8:
+        printf("Certo, primeiro precisamos que voce confirme seu cpf e data de nascimento\n");
+        while(ccpf!=conta->reg.cpf || csenha!=conta->reg.senha){
+            scanf("%d %d", &ccpf, &csenha);
+            if(ccpf!=conta->reg.cpf || csenha!=conta->reg.senha){
+                printf("Dados incorretos, deseja tentar novamente?\n1 para sim, 0 para não:");
+                scanf("%d",&pagamento);
+                printf("\n");
+                if(pagamento==0) break;
+            } else { 
+                excluirConta(l, conta->reg.cpf);
+                printf("Obrigado pelo tempo conosto, ate breve\n");
+                return ;
+            }
+        }
             break;
         case 9:
             printf("Obrigado, volte sempre.\n");
