@@ -28,6 +28,10 @@ typedef struct {
     PONT inicio;
 } BANCO;
 
+void info(){
+    printf("\n\n\n\nPrograma feito como trabalho final da materia de AED1 pelo curso de Ciencias da Computacao, UFG\nCriadores:Joao Paulo Lopes de Carvalho Grilo e Thales fossalussa\n11/2020\n\n\n\n");
+}
+
 void inicializarBanco(BANCO* l){
 l->inicio = NULL;
 }
@@ -76,7 +80,7 @@ void inserirConta(BANCO* l) {
     printf("Ok, para comecarmos nos diga o seu nome:\n");
     scanf("%s", &nome);
     while(c=0){
-        printf("Senhor(a) %s\nCaso tenha errado, basta digitar 0, caso esteja correto, digite 1?", i->reg.nome);
+        printf("Senhor(a) %s\nCaso tenha errado, basta digitar 0, caso esteja correto, digite 1", i->reg.nome);
         scanf("%d", &c);
     }
     strncpy(i->reg.nome, nome, 30);
@@ -107,6 +111,7 @@ void inserirConta(BANCO* l) {
     scanf("&d", &i->reg.salario);
     i->reg.saldo=i->reg.salario;
     i->reg.credito=i->reg.salario*0.2;
+    i->reg.divida=0;
 
 
     printf("Ok, %s, agora para algumas informacoes sobre sua conta.\nSeu numero de conta e >%d<\nPor favor, Crie uma senha de 4 digitos:\n", i->reg.ano, i->reg.conta);
@@ -152,14 +157,16 @@ void excluirConta(BANCO* l, int cpf) { //busca o cpf do titular para exluir a co
 }
 
 
+void operacoes(BANCO* l, int nconta){
+    int a=0, pagamento;
+    PONT conta=l->inicio;
+    while(conta->prox!=NULL){
+        if(conta->reg.conta==nconta) break;
+        conta=conta->prox;
+    }
 
-
-
-
-
-void operacoes(PONT* l){
-    int a=0;
     printf("-----------------------------------------------------------\n");
+    printf("O que deseja fazer?");
     printf("Digite 1 para saber seu saldo\n.");
     printf("Digite 2 para realizar um pagamento\n.");
     printf("Digite 3 para realizar um saque\n.");
@@ -171,7 +178,48 @@ void operacoes(PONT* l){
     printf("-----------------------------------------------------------\n");
     while((a<1) && (a>8)){
         scanf("%d", &a);
-        if((a<1) && (a>8)) printf("Opção invalida. Tente novamente.\n");
+        switch (a)
+        {
+        case 1:
+        printf("Seu saldo e de RS:%d.", conta->reg.saldo);
+            break;
+        case 2:
+        printf("Voce tem RS:%d disponiveis\nValor do pagamento: ", conta->reg.saldo);
+        scanf("%d", &pagamento);
+        if(pagamento>conta->reg.saldo) printf("Sem saldo disponivel!\n"); 
+        else{
+            conta->reg.saldo=(conta->reg.saldo) - pagamento;
+            printf("\nSeu novo saldo e de RS:%d", conta->reg.saldo);
+        }
+            break;
+        case 3:
+        printf("Voce tem RS:%d disponiveis\nValor do saque: ", conta->reg.saldo);
+        scanf("%d", &pagamento);
+        if(pagamento>conta->reg.saldo) printf("Sem saldo disponivel!\n"); 
+        else{
+            conta->reg.saldo=(conta->reg.saldo) - pagamento;
+            printf("\nSeu novo saldo e de RS:%d", conta->reg.saldo);
+        }
+            break;
+        case 4:
+            break;
+        case 5:
+        printf("Seu limite é de RS:%d.", conta->reg.credito);
+            break;
+        case 6:
+        printf("Voce tem RS:%d de credito disponivel\nValor do pagamento: ", conta->reg.credito-conta->reg.divida);
+        scanf("%d", &pagamento);
+        conta->reg.divida=(conta->reg.divida) + pagamento;
+        printf("\nVoce ainda tem RS:%d de limite.", conta->reg.saldo);
+            break;
+        case 7:
+            break;
+        case 8:
+            break;
+        default:
+            printf("Operacao invalida, tente novamente\n");
+            break;
+        }
     }
 }
 
@@ -185,9 +233,9 @@ void login(BANCO* l){ //busca pelo banco uma conta que tenha o nconta e senha ig
         
         while(conta->prox!=NULL){ //percorre as structs
             if ((nconta==conta->reg.conta) && (senha==conta->reg.senha)){ //caso onde as informações batem 
-                printf("senha bem vindo(a) %s!\n",conta->reg.nome);
+                printf("seja bem vindo(a) %s!\n",conta->reg.nome);
                 v++; //verificador incrementado e laço quebrado
-                operacoes(&conta);
+                operacoes(l, conta->reg.conta);
                 break;
             }
             conta=conta->prox; //caso onde as informações não batem
