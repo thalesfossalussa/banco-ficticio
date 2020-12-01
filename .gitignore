@@ -1,3 +1,4 @@
 AED.code-workspace
 .vscode
 *.out
+*.o
