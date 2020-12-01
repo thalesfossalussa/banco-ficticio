@@ -36,7 +36,7 @@ void inserirConta(BANCO* l);
 
 void excluirConta(BANCO* l, int cpf);
 
-void operacoes(PONT* l);
+void operacoes(BANCO* l, int nconta);
 
 void login(BANCO* l);
 
