@@ -6,10 +6,6 @@
 #include "funcoes.h"
 
 void info(void){
-    printf("teste\n");
-}
-
-void info(){
     printf("\n\n\n\nPrograma feito como trabalho final da materia de AED1 pelo curso de Ciencias da Computacao, UFG\nCriadores:Joao Paulo Lopes de Carvalho Grilo e Thales fossalussa\n11/2020\n\n\n\n");
 }
 
@@ -226,4 +222,25 @@ void login(BANCO* l){ //busca pelo banco uma conta que tenha o nconta e senha ig
         printf("Numero de conta ou senha incorretos ou inexistentes, tente novamente.\n");
         printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n"); //ciclo recomeçado
     }
+}
+
+void printMenu(int select) {
+
+    printf("---------------------------------\n");
+	printf("Menu\n");
+    printf("---------------------------------\n");
+	printf("1 - Acessar sua conta\n");
+    printf("---------------------------------\n");
+	printf("2 - Criar sua conta\n");
+    printf("---------------------------------\n");
+	printf("3 - Proximo mes\n");
+    printf("---------------------------------\n");
+    printf("4 - Informacoes\n");
+    printf("---------------------------------\n");
+    printf("5 - fechar\n");
+    printf("---------------------------------\n");
+
+	while(select < 1 || select > 5){
+		scanf("%d", &select);
+	}
 }

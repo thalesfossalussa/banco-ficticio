@@ -53,4 +53,7 @@ void login(BANCO* l);
 // Mostra as informações do programa
 void info(void);
 
+// Menu inicial
+void printMenu(int select);
+
 #endif
