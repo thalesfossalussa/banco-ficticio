@@ -7,6 +7,7 @@ int main() {
     int select = 0;
     int fechar = 0;
     BANCO conta;
+    inicializarBanco(&conta);
 	
     while(fechar == 0){
         printMenu();
