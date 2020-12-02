@@ -44,9 +44,11 @@ int tamanhoBanco(BANCO* l);
  * l: lista de contas
  * cpf: cpf que será buscado
  */
-PONT buscarConta(BANCO* l, long int cpf);
+void buscarConta(BANCO* l, long int cpf);
 
-// Insere uma conta no BANCO
+/* Insere uma conta no BANCO
+ * l: Lista do banco
+ */
 void inserirConta(BANCO* l);
 
 /* Exclui uma conta do BANCO
@@ -54,6 +56,9 @@ void inserirConta(BANCO* l);
  * cpf: cpf do portador da conta que será excluída
  */
 void excluirConta(BANCO* l, int cpf);
+
+// Printa o menu de operações
+void menuOperacoes(void);
 
 /* Operações da conta
  * l: Lista do banco
@@ -77,11 +82,15 @@ void login(BANCO* l);
  */
 void deposito(BANCO* l);
 
-
 /* Realiza uma limpeza na lista BANCO
  * l: lista do banco
  */
 void limpa(BANCO* l);
+
+/* Mostra as informações da conta do usuário
+ * l: Lista do banco
+ */
+void informacoesConta(BANCO* l);
 
 // Printa o menu inicial
 void printMenu(void);
