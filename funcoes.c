@@ -32,7 +32,8 @@ PONT buscarConta(BANCO* l, int cpf, PONT* ant){ //retorna o pontero que aponta p
 
 void inserirConta(BANCO* l) {
     PONT i, ant;
-    int tam, senha1, senha2, c=0, cpf;
+    int tam, senha1, senha2, c=0;
+    float cpf;
     tam = tamanhoBanco(l);
     ant = l->inicio;
 
@@ -47,7 +48,7 @@ void inserirConta(BANCO* l) {
         i->prox = NULL;
     }  //processo de alocação de memória feito, agora para o preenchimento de dados
 
-    printf("---------------------------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------------------\n");
     printf("Ok, para comecarmos nos diga o seu nome:\n");
     while(1){
         scanf("%s", i->reg.nome);
@@ -58,14 +59,18 @@ void inserirConta(BANCO* l) {
     }
 
     printf("\nSeu CPF:");
-    scanf("%f", &i->reg.cpf);
-    while(i->reg.cpf>99999999999 || i->reg.cpf<10000000000){ //caso o cpf tenha menos de 11 dígitos ele não será aceito, funciona já que não há cpf que comece com 0
+    scanf("%f", &cpf);
+    //printf("\n*%.0f*\n", cpf);
+    while(cpf>99999999999 || cpf<10000000000){ //caso o cpf tenha menos de 11 dígitos ele não será aceito, funciona já que não há cpf que comece com 0
         printf("\n==========================================\n");
         printf("CPF invalido! Por favor, insira novamente.\n");
         printf("==========================================\n");
-        scanf("%f", &i->reg.cpf);
+        scanf("%f", &cpf);
     }
-    printf("\n*%.0f*\n", i->reg.cpf);
+    //printf("\n*%.0f*\n", cpf);
+    i->reg.cpf=cpf;
+    //printf("\n*%.0f*\n", i->reg.cpf);
+    
     printf("\nSua data de nascimento no seguinte formato dd mm aaaa:");
     scanf("%d %d %d", &i->reg.dia, &i->reg.mes, &i->reg.ano);
     while(i->reg.dia<1 || i->reg.dia>31 || i->reg.mes<1 || i->reg.mes>12 || i->reg.ano>2002){ //não fiz casos especiais para ano bisexto e essas paradas, se quiser dar uma olhada nisso fique a vontade, da pra colocar uns if's no while tranquilamente
@@ -154,28 +159,32 @@ void transferencia(BANCO* l, int transferido){
 
 }
 
-
-void operacoes(BANCO* l, int nconta){
-    int a=0, pagamento, ccpf, csenha;
-    PONT conta=l->inicio;
-    while(conta->prox!=NULL){
-        if(conta->reg.conta==nconta) break;
-        conta=conta->prox;
-    }
-
-    printf("-----------------------------------------------------------\n");
-    printf("O que deseja fazer?");
-    printf("Digite 1 para saber seu saldo\n.");
-    printf("Digite 2 para realizar um pagamento\n.");
-    printf("Digite 3 para realizar um saque\n.");
-    printf("Digite 4 para realizar uma transferencia\n.");
+void menuop(){
+    printf("\n-----------------------------------------------------------\n");
+    printf("O que deseja fazer?\n");
+    printf("Digite 1 para saber seu saldo.\n");
+    printf("Digite 2 para realizar um pagamento.\n");
+    printf("Digite 3 para realizar um saque.\n");
+    printf("Digite 4 para realizar uma transferencia.\n");
     printf("Digite 5 para consultar seu credito.\n");
     printf("Digite 6 para realizar um pagamento com credito.\n");
     printf("Digite 7 para realizar o pagamento da sua conta de credito.\n");
     printf("Digite 8 caso deseje encerrar sua conta.\n");
     printf("Digite 9 caso deseje sair.\n");
     printf("-----------------------------------------------------------\n");
-    while((a<1) && (a>8)){
+    printf("Opcao: ");
+}
+
+void operacoes(BANCO* l, int nconta){
+    int fechar=0, a=0, pagamento, csenha;
+    float ccpf;
+    PONT conta=l->inicio;
+    while(conta->prox!=NULL){
+        if(conta->reg.conta==nconta) break;
+        conta=conta->prox;
+    }
+    while(fechar==0){
+        menuop();
         scanf("%d", &a);
         switch (a)
         {
@@ -184,29 +193,29 @@ void operacoes(BANCO* l, int nconta){
             break;
         
         case 2:
-        printf("Voce tem RS:%d disponiveis\nValor do pagamento: ", conta->reg.saldo);
+        printf("Voce tem RS:%d disponiveis.\nValor do pagamento: ", conta->reg.saldo);
         scanf("%d", &pagamento);
         printf("\n");
         if(pagamento>conta->reg.saldo) printf("Saldo insuficiente!\n");
         else{
             conta->reg.saldo=(conta->reg.saldo) - pagamento;
-            printf("\nSeu novo saldo e de RS:%d\n", conta->reg.saldo);
+            printf("\nSeu novo saldo e de RS:%d.\n", conta->reg.saldo);
         }
             break;
         
         case 3:
-        printf("Voce tem RS:%d disponiveis\nValor do saque: ", conta->reg.saldo);
+        printf("Voce tem RS:%d disponiveis.\nValor do saque: ", conta->reg.saldo);
         scanf("%d", &pagamento);
         printf("\n");
         if(pagamento>conta->reg.saldo) printf("Saldo insuficiente!\n");
         else{
             conta->reg.saldo=(conta->reg.saldo) - pagamento;
-            printf("\nSeu novo saldo e de RS:%d", conta->reg.saldo);
+            printf("\nSeu novo saldo e de RS:%d.", conta->reg.saldo);
         }
             break;
         
         case 4:
-        printf("Voce tem RS:%d disponiveis\nValor a ser transferido RS:", conta->reg.saldo);
+        printf("Voce tem RS:%d disponiveis.\nValor a ser transferido RS: ", conta->reg.saldo);
         scanf("%d", &pagamento);
         printf("\n");
         if(pagamento>conta->reg.saldo) printf("Saldo insuficiente!\n");
@@ -228,12 +237,12 @@ void operacoes(BANCO* l, int nconta){
         if((conta->reg.divida + pagamento)>conta->reg.credito) printf("Credito insuficiente!\n"); 
         else{
             conta->reg.divida=(conta->reg.divida) + pagamento;
-            printf("\nCredito disponivel RS:%d.", conta->reg.saldo - conta->reg.divida);
+            printf("\nCredito disponivel RS:%d.\n", conta->reg.credito - conta->reg.divida);
         }
             break;
       
         case 7:
-        printf("Voce tem um total de RS%d de credito a ser pago.\nDeseja pagar? (1 para sim | 0 para não)\n", conta->reg.divida);
+        printf("Voce tem um total de RS%d de credito a ser pago.\nDeseja pagar? (1 para sim | 0 para nao)\n", conta->reg.divida);
         scanf("%d", &pagamento);
         if(pagamento==0) break;
         if(pagamento==1){
@@ -248,12 +257,13 @@ void operacoes(BANCO* l, int nconta){
         case 8:
         printf("Certo, primeiro precisamos que voce confirme seu cpf e data de nascimento\n");
         while(ccpf!=conta->reg.cpf || csenha!=conta->reg.senha){
-            scanf("%d %d", &ccpf, &csenha);
+            scanf("%f %d", &ccpf, &csenha);
             if(ccpf!=conta->reg.cpf || csenha!=conta->reg.senha){
-                printf("Dados incorretos, deseja tentar novamente?\n1 para sim, 0 para não.\n");
+                printf("Dados incorretos, deseja tentar novamente?\n(1 para sim, 0 para nao).\n");
                 scanf("%d",&pagamento);
                 printf("\n");
                 if(pagamento==0) break;
+                if(pagamento==1) scanf("%f %d", &ccpf, &csenha);
             } else { 
                 excluirConta(l, conta->reg.cpf);
                 printf("Obrigado pelo seu tempo conosto, ate breve.\n");
@@ -276,12 +286,12 @@ void operacoes(BANCO* l, int nconta){
 void login(BANCO* l){ //busca pelo banco uma conta que tenha o nconta e senha iguais aos informados
     int nconta, senha, v=0;
     PONT conta;
-    while(v=0){ //v é o verificador, caso permaneça em 0 significa que nenhuma conta regitrada foi encontrada 
+    while(v==0){ //v é o verificador, caso permaneça em 0 significa que nenhuma conta regitrada foi encontrada 
         conta=l->inicio;
         printf("Digite seu numero de conta e senha:\n");
         scanf("%d %d",&nconta, &senha);
-        
-        while(conta->prox!=NULL){ //percorre as structs
+        if(nconta==0) break;
+        while(conta!=NULL){ //percorre as structs
             if ((nconta==conta->reg.conta) && (senha==conta->reg.senha)){ //caso onde as informações batem 
                 printf("seja bem vindo(a) %s!\n",conta->reg.nome);
                 v++; //verificador incrementado e laço quebrado
@@ -291,9 +301,9 @@ void login(BANCO* l){ //busca pelo banco uma conta que tenha o nconta e senha ig
             conta=conta->prox; //caso onde as informações não batem
         }
         if(v!=0) break;
-        printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
+        printf("\n=====================================================================\n");
         printf("Numero de conta ou senha incorretos ou inexistentes, tente novamente.\n");
-        printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n"); //ciclo recomeçado
+        printf("=====================================================================\n"); //ciclo recomeçado
     }
 }
 
@@ -333,12 +343,11 @@ void imprime(BANCO* l){
         printf("\nsenha: %d\n\n", mostra->reg.senha);
         mostra=mostra->prox;
    }
-    printf("FIM\n");
+    printf("FIM\n\n");
 }
 
 void printMenu(void) {
 	printf("Menu\n");
-    printf("---------------------------------\n");
 	printf("1 - Acessar sua conta\n");
     printf("---------------------------------\n");
 	printf("2 - Criar sua conta\n");

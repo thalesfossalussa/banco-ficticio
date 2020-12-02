@@ -45,6 +45,8 @@ void inserirConta(BANCO* l);
 // Exclui uma conta do BANCO
 void excluirConta(BANCO* l, int cpf);
 
+void menuop(void);
+
 void operacoes(BANCO* l, int nconta);
 
 void transferencia(BANCO* l, int transferido);

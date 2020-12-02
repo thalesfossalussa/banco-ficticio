@@ -15,7 +15,7 @@ int main() {
             mes=mes-12;
             ano++;
         }
-        printf("%d/%d\n", mes, ano);
+        printf("\nData: %d/%d\n", mes, ano);
         printMenu();
         printf("Opcao:");
         scanf("%d", &select);
