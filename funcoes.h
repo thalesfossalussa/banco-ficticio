@@ -4,14 +4,14 @@
 // struct que abriga os dados da conta/registro do cliente
 typedef struct {
     char nome[30];
-    int cpf;
+    long int cpf;
     int dia;
     int mes;
     int ano;
-    int salario;
-    int saldo;
-    int credito;
-    int divida;
+    float salario;
+    float saldo;
+    float credito;
+    float divida;
     int conta;
     int senha;
 } REGISTRO;
@@ -54,11 +54,14 @@ void transferencia(BANCO* l, int transferido);
 // Login com a conta
 void login(BANCO* l);
 
+// Realiza o deposito
 void deposito(BANCO* l);
 
 void limpa(BANCO* l);
 
 void imprime(BANCO* l);
+// Limpa a lista BANCO
+void limpa(BANCO* l);
 
 // Printa o menu inicial
 void printMenu(void);
