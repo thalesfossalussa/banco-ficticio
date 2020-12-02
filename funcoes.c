@@ -170,19 +170,17 @@ void transferencia(BANCO *l, float transferido)
     PONT cont = l->inicio;
     printf("Digite o numero da conta a receber a transferencia.\n");
     scanf("%d", &ctrans);
-    while (cont->prox != NULL)
+    while (cont != NULL)
     {
         if (ctrans == cont->reg.conta)
         {
             cont->reg.saldo += transferido;
             break;
-        }
+        } else
+            cont = cont->prox;
     }
-    if (cont->prox == NULL)
-    {
+    if (cont == NULL)
         printf("Conta inexistente!\n");
-        return;
-    }
 }
 
 void menuOperacoes()
