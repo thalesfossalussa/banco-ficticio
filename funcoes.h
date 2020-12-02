@@ -47,13 +47,19 @@ void excluirConta(BANCO* l, int cpf);
 
 void operacoes(BANCO* l, int nconta);
 
+void transferencia(BANCO* l, int transferido);
+
 // Login com a conta
 void login(BANCO* l);
 
-// Mostra as informações do programa
-void info(void);
+void deposito(BANCO* l);
+
+void limpa(BANCO* l)
 
 // Printa o menu inicial
 void printMenu(void);
+
+// Mostra as informações do programa
+void info(void);
 
 #endif
