@@ -30,32 +30,57 @@ typedef struct {
     PONT inicio;
 } BANCO;
 
-// Inicialiazndo lista
+/* Inicializando banco
+ * l:Lista onde será armazenado o banco
+ */
 void inicializarBanco(BANCO* l);
 
-// Retorna o tamanho do BANCO
+/* Retorna o tamanho do BANCO
+ * l: Lista que deseja-se extrair o tamanho
+ */
 int tamanhoBanco(BANCO* l);
 
-// Busca uma conta no banco
-PONT buscarConta(BANCO* l, int cpf, PONT* ant);
+/* Busca uma conta no BANCO
+ * l: lista de contas
+ * cpf: cpf que será buscado
+ */
+PONT buscarConta(BANCO* l, long int cpf);
 
 // Insere uma conta no BANCO
 void inserirConta(BANCO* l);
 
-// Exclui uma conta do BANCO
+/* Exclui uma conta do BANCO
+ * l: Lista do banco
+ * cpf: cpf do portador da conta que será excluída
+ */
 void excluirConta(BANCO* l, int cpf);
 
+/* Operações da conta
+ * l: Lista do banco
+ * nconta: número da conta que será operada
+ */
 void operacoes(BANCO* l, int nconta);
 
-void transferencia(BANCO* l, int transferido);
+/* Transferencia entre contas
+ * l: Lista do banco
+ * transferido: valor a ser trasnferido
+ */
+void transferencia(BANCO* l, float transferido);
 
-// Login com a conta
+/* Efetuar login no banco
+ * l: Lista do banco
+ */
 void login(BANCO* l);
 
-// Realiza o deposito
+/* Realiza o deposito
+ * l: Lista do banco
+ */
 void deposito(BANCO* l);
 
-// Limpa a lista BANCO
+
+/* Realiza uma limpeza na lista BANCO
+ * l: lista do banco
+ */
 void limpa(BANCO* l);
 
 // Printa o menu inicial
