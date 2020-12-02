@@ -10,6 +10,7 @@ int main() {
     int mes=12, ano=2020;
     BANCO conta;
 	inicializarBanco(&conta);
+    
     while(fechar == 0){
         if(mes>12){
             mes=mes-12;
