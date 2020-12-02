@@ -44,7 +44,7 @@ int tamanhoBanco(BANCO* l);
  * l: lista de contas
  * cpf: cpf que será buscado
  */
-void buscarConta(BANCO* l, long int cpf);
+PONT buscarConta(BANCO* l, long int cpf);
 
 /* Insere uma conta no BANCO
  * l: Lista do banco

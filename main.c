@@ -46,7 +46,7 @@ int main() {
                 fechar = 1;
                 break;
             case 6:
-                imprime(&contas);
+                informacoesConta(&contas);
                 select = 0;
                 break;
             default:
