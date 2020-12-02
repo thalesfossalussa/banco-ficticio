@@ -54,7 +54,9 @@ void login(BANCO* l);
 
 void deposito(BANCO* l);
 
-void limpa(BANCO* l)
+void limpa(BANCO* l);
+
+void imprime(BANCO* l);
 
 // Printa o menu inicial
 void printMenu(void);

@@ -51,8 +51,9 @@ void inserirConta(BANCO* l) {
     printf("Ok, para comecarmos nos diga o seu nome:\n");
     while(1){
         scanf("%s", i->reg.nome);
-        printf("Senhor(a) %s?\nCaso tenha errado, basta digitar 0, caso esteja correto, digite 1:\nOpcao:", i->reg.nome);
+        printf("Senhor(a) %s?\nCaso tenha errado, basta digitar o nome correto, caso esteja correto, digite 1:\nOpcao:", i->reg.nome);
         scanf("%d", &c);
+        if(c==0) printf("Nome: ");
         if(c==1) break;
     }
 
@@ -314,6 +315,25 @@ void limpa(BANCO* l){
         free(apagar);
     }
     l->inicio = NULL;
+}
+
+void imprime(BANCO* l){
+    PONT mostra = l->inicio;
+    while(mostra!=NULL){
+        printf("cpf: %f", mostra->reg.cpf);
+        printf("\nnome: %s", mostra->reg.nome);
+        printf("\ndia: %d ", mostra->reg.dia);
+        printf("mes: %d ", mostra->reg.mes);
+        printf("ano: %d", mostra->reg.ano);
+        printf("\nsalario: %d", mostra->reg.salario);
+        printf("\nsaldo: %d", mostra->reg.saldo);
+        printf("\ncredito: %d", mostra->reg.credito);
+        printf("\ndivida: %d", mostra->reg.divida);
+        printf("\nconta: %d", mostra->reg.conta);
+        printf("\nsenha: %d\n\n", mostra->reg.senha);
+        mostra=mostra->prox;
+   }
+    printf("FIM\n");
 }
 
 void printMenu(void) {
