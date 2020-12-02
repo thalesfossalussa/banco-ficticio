@@ -80,7 +80,7 @@ void inserirConta(BANCO* l) {
     while(i->reg.conta>99999) i->reg.conta=i->reg.conta/10;//considerando que a conta máxima pode ser 201199, faz se necessária essa divisão
     
     printf("\nSalario mensal:");
-    scanf("%e", &i->reg.salario);
+    scanf("%f", &i->reg.salario);
     i->reg.saldo=i->reg.salario;
     i->reg.credito=i->reg.salario*0.2;
     i->reg.divida=0;
@@ -124,7 +124,7 @@ void inserirConta(BANCO* l) {
     return;
 }
 
-void excluirConta(BANCO* l, int cpf) { //busca o cpf do titular para exluir a conta
+void excluirConta(BANCO* l, long int cpf) { //busca o cpf do titular para exluir a conta
     PONT ant, atual;
     atual = l->inicio;
     ant = NULL;
@@ -223,7 +223,7 @@ void operacoes(BANCO* l, int nconta){
             break;
        
         case 5:
-        printf("Seu limite é de RS:%.2f.\n", conta->reg.credito);
+            printf("Seu limite é de RS:%.2f\n", conta->reg.credito);
             break;
       
         case 6:
@@ -251,18 +251,19 @@ void operacoes(BANCO* l, int nconta){
             break;
     
         case 8:
-        printf("Certo, primeiro precisamos que voce confirme seu cpf e data de nascimento\n");
         while(ccpf!=conta->reg.cpf || csenha!=conta->reg.senha){
-            scanf("%.2f %d", &ccpf, &csenha);
+            printf("\n\nCerto, primeiro precisamos que voce confirme seu cpf: ");
+            scanf("%f", &ccpf);
+            printf("\nAgora digite sua senha: ");
+            scanf("%d", &csenha);
             if(ccpf!=conta->reg.cpf || csenha!=conta->reg.senha){
-                printf("Dados incorretos, deseja tentar novamente?\n(1 para sim, 0 para nao).\n");
+                printf("Dados incorretos, deseja tentar novamente?\n(1 para sim, 0 para nao).\nOpcao: ");
                 scanf("%d",&pagamento);
                 printf("\n");
                 if(pagamento==0) break;
-                if(pagamento==1) scanf("%.2f %d", &ccpf, &csenha);
             } else { 
                 excluirConta(l, conta->reg.cpf);
-                printf("Obrigado pelo seu tempo conosto, ate breve.\n");
+                printf("Obrigado pelo seu tempo conosco, ate breve.\n");
                 return ;
             }
         }
@@ -287,8 +288,10 @@ void login(BANCO* l){ //busca pelo banco uma conta que tenha o nconta e senha ig
         return;
     }
     conta=l->inicio;
-    printf("Digite seu numero de conta e senha:\n");
-    scanf("%d %d",&nconta, &senha);
+    printf("Digite seu numero de conta:\n");
+    scanf("%d",&nconta);
+    printf("Digite sua senha:\n");
+    scanf("%d", &senha);
     while(1){ //percorre as structs
         if ((nconta==conta->reg.conta) && (senha==conta->reg.senha)){ //caso onde as informações batem
             v++;

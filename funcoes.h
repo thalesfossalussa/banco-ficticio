@@ -55,7 +55,7 @@ void inserirConta(BANCO* l);
  * l: Lista do banco
  * cpf: cpf do portador da conta que será excluída
  */
-void excluirConta(BANCO* l, int cpf);
+void excluirConta(BANCO* l, long int cpf);
 
 // Printa o menu de operações
 void menuOperacoes(void);
