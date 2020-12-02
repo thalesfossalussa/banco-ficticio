@@ -342,7 +342,7 @@ void info(void){
     scanf("%d", &a);
     while(1){    
         while(a!=1 && a!=2 && a!=0){
-            printf("Invalido, tente novamente\nOpcao:");
+            printf("Invalido, tente novamente\nOpcoes validas: 1, 2, 3.\nOpcao:");
             scanf("%d", &a);
         }
 
