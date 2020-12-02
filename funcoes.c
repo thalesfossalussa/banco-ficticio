@@ -19,8 +19,8 @@ int tamanhoBanco(BANCO* l) {
     return tam;
 }
 
-PONT buscarConta(BANCO* l, int cpf, PONT* ant){ //retorna o pontero que aponta para a conta desejada
-    *ant = NULL;
+PONT buscarConta(BANCO* l, long int cpf){
+    PONT * ant = NULL;
     PONT atual = l->inicio;
     while ((atual != NULL) && (atual->reg.cpf!=cpf)) {
     *ant = atual;
@@ -135,20 +135,20 @@ void excluirConta(BANCO* l, int cpf) { //busca o cpf do titular para exluir a co
     free(atual); //excluíndo posição
 }
 
-void transferencia(BANCO* l, int transferido){
+void transferencia(BANCO* l, float transferido){
     int ctrans;
     PONT cont = l->inicio;
     printf("Digite o numero da conta a receber a transferencia.\n");
     scanf("%d", &ctrans);
     while(cont->prox!=NULL){
         if(ctrans==cont->reg.conta){ 
-        cont->reg.saldo=cont->reg.saldo+transferido;
+        cont->reg.saldo += transferido;
         break;
         }
     }
     if(cont->prox==NULL){
         printf("Conta inexistente!\n");
-        return ;
+        return;
     }
 
 }
@@ -275,25 +275,29 @@ void operacoes(BANCO* l, int nconta){
 void login(BANCO* l){ //busca pelo banco uma conta que tenha o nconta e senha iguais aos informados
     int nconta, senha, v=0;
     PONT conta;
-    while(v=0){ //v é o verificador, caso permaneça em 0 significa que nenhuma conta regitrada foi encontrada 
-        conta=l->inicio;
-        printf("Digite seu numero de conta e senha:\n");
-        scanf("%d %d",&nconta, &senha);
-        
-        while(conta->prox!=NULL){ //percorre as structs
-            if ((nconta==conta->reg.conta) && (senha==conta->reg.senha)){ //caso onde as informações batem 
-                printf("seja bem vindo(a) %s!\n",conta->reg.nome);
-                v++; //verificador incrementado e laço quebrado
-                operacoes(l, conta->reg.conta);
-                break;
-            }
-            conta=conta->prox; //caso onde as informações não batem
-        }
-        if(v!=0) break;
-        printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
-        printf("Numero de conta ou senha incorretos ou inexistentes, tente novamente.\n");
-        printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n"); //ciclo recomeçado
+    if (l->inicio == NULL) {
+        printf("Ainda nao possuímos contas cadastradas, crie sua conta agora escolhendo a opcao 2\n");
+        return;
     }
+    conta=l->inicio;
+    printf("Digite seu numero de conta e senha:\n");
+    scanf("%d %d",&nconta, &senha);
+    while(1){ //percorre as structs
+        if ((nconta==conta->reg.conta) && (senha==conta->reg.senha)){ //caso onde as informações batem
+            v++;
+            break;
+        } else if(conta->prox != NULL) conta=conta->prox;
+        else break;
+    }
+    if (v > 0) {
+        printf("seja bem vindo(a) %s!\n",conta->reg.nome);
+        operacoes(l, conta->reg.conta);
+    } else {
+        printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
+        printf("Numero de conta ou senha incorretos ou inexistentes, voltando ao menu.\n");
+        printf("|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|\n");
+    }
+        
 }
 
 void deposito(BANCO* l){

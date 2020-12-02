@@ -7,19 +7,19 @@
 int main() {
     int select = 0;
     int fechar = 0;
-    BANCO conta;
-    inicializarBanco(&conta);
+    BANCO contas;
+    inicializarBanco(&contas);
 	
     while(fechar == 0){
         printMenu();
         scanf("%d", &select);
         switch(select) {
             case 1://acessa a conta
-                printf("Foi escolhido o 1\n");
+                login(&contas);
                 select = 0;
                 break;
-            case 2://cria uma conta
-                inserirConta(&conta);
+            case 2:
+                inserirConta(&contas);
                 select = 0;
                 break;
             case 3://passa o mês
@@ -31,7 +31,7 @@ int main() {
                 select = 0;
                 break;
             case 5://encerra o programa
-                printf("Ate a proxima! :)\n");
+                printf("\nAte a proxima! :)\n");
                 fechar = 1;
                 break;
             default:
