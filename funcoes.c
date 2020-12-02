@@ -96,11 +96,11 @@ void inserirConta(BANCO *l)
     while (i->reg.conta > 99999)
         i->reg.conta = i->reg.conta / 10; //considerando que a conta máxima pode ser 201199, faz se necessária essa divisão
 
-    printf("\nSalario mensal:");
+    printf("\nSalario mensal R$");
     scanf("%f", &i->reg.salario);
     i->reg.saldo = i->reg.salario;
     i->reg.credito = i->reg.salario * 0.2;
-    i->reg.divida = 0;
+    i->reg.fatura = 0;
 
     printf("\nOk, %s, agora para algumas informacoes sobre sua conta.\nSeu numero de conta e >%d<.\n\nAgora digite uma senha de 4 digitos: ", i->reg.nome, i->reg.conta);
     scanf("%d", &senha1);
@@ -190,12 +190,14 @@ void menuOperacoes()
     printf("1 - Visualizar saldo.\n");
     printf("2 - Realizar um pagamento.\n");
     printf("3 - Sacar.\n");
-    printf("4 - Realizar transferencia.\n");
-    printf("5 - Consultar crédito.\n");
-    printf("6 - Pagamento com credito.\n");
-    printf("7 - Pagar fatura.\n");
-    printf("8 - Encerrrar conta.\n");
-    printf("9 - Sair.\n");
+    printf("4 - Depositar.\n");
+    printf("5 - Realizar transferencia.\n");
+    printf("6 - Consultar limite.\n");
+    printf("7 - Consultar fatura.\n");
+    printf("8 - Pagamento com credito.\n");
+    printf("9 - Pagar fatura.\n");
+    printf("10- Encerrrar conta.\n");
+    printf("0 - Sair.\n");
     printf("-----------------------------------------------------------\n");
     printf("Opcao: ");
 }
@@ -246,8 +248,14 @@ void operacoes(BANCO *l, int nconta)
                 printf("\nSeu novo saldo e de R$%.2f\n", conta->reg.saldo);
             }
             break;
-
+        
         case 4:
+            printf("Valor a ser depositado: R$");
+            scanf("%f", &pagamento);
+            deposito(l, conta->reg.conta, pagamento);
+            break;
+
+        case 5:
             printf("Voce tem R$%.2f disponiveis\nValor a ser transferido R$", conta->reg.saldo);
             scanf("%f", &pagamento);
             printf("\n");
@@ -261,41 +269,45 @@ void operacoes(BANCO *l, int nconta)
 
             break;
 
-        case 5:
+        case 6:
             printf("Seu limite é de R$%.2f\n", conta->reg.credito);
             break;
 
-        case 6:
-            printf("Voce tem R$%.2f de credito disponivel\nValor do pagamento: ", conta->reg.credito - conta->reg.divida);
+        case 7:
+            printf("O valor da fatura é de R$%.2f\n", conta->reg.fatura);
+            break;
+        case 8:
+            printf("Voce tem R$%.2f de credito disponivel\nValor do pagamento: ", conta->reg.credito - conta->reg.fatura);
             scanf("%f", &pagamento);
             printf("\n");
-            if ((conta->reg.divida + pagamento) > conta->reg.credito)
+            if ((conta->reg.fatura + pagamento) > conta->reg.credito)
                 printf("Credito insuficiente!\n");
             else
             {
-                conta->reg.divida = (conta->reg.divida) + pagamento;
-                printf("\nCredito disponivel R$%.2f.", conta->reg.saldo - conta->reg.divida);
+                conta->reg.fatura = (conta->reg.fatura) + pagamento;
+                printf("\nValor da conta descontando o credito disponivel R$%.2f.", conta->reg.saldo - conta->reg.fatura);
             }
             break;
 
-        case 7:
-            printf("Voce tem um total de R$%.2f de credito a ser pago.\nDeseja pagar? (1 para sim | 0 para não)\n", conta->reg.divida);
+        case 9:
+            printf("Voce tem um total de R$%.2f de credito a ser pago.\nDeseja pagar? (1 para sim | 0 para não)\n", conta->reg.fatura);
             scanf("%f", &pagamento);
             if (pagamento == 0)
                 break;
             if (pagamento == 1)
             {
-                if (conta->reg.divida > conta->reg.saldo)
+                if (conta->reg.fatura > conta->reg.saldo)
                     printf("Saldo insuficiente!\n");
                 else
                 {
-                    conta->reg.saldo = conta->reg.saldo - conta->reg.divida;
+                    conta->reg.saldo = conta->reg.saldo - conta->reg.fatura;
+                    conta->reg.fatura = 0.00;
                     printf("Pagamento feito com sucesso!\nNovo saldo disponivel R$%.2f.\n", conta->reg.saldo);
                 }
             }
             break;
 
-        case 8:
+        case 10:
             while (ccpf != conta->reg.cpf || csenha != conta->reg.senha)
             {
                 printf("\n\nCerto, primeiro precisamos que voce confirme seu cpf: ");
@@ -319,7 +331,7 @@ void operacoes(BANCO *l, int nconta)
             }
             break;
 
-        case 9:
+        case 0:
             printf("Obrigado, volte sempre.\n");
             return;
             break;
@@ -369,7 +381,27 @@ void login(BANCO *l)
     }
 }
 
-void deposito(BANCO *l)
+void deposito(BANCO *l, int nconta , float valor)
+{
+    PONT conta = l->inicio;
+    while (conta != NULL)
+    {
+        if(conta->reg.conta == nconta)
+            break;
+        else
+            conta = conta->prox;
+    }
+    if (conta == NULL)
+        printf("\nConta inexistente, consulte o administrador do sistema!");
+    else
+    {
+        conta->reg.saldo += valor;
+        printf("\nValor depositado na conta, novo saldo é R$%.2f\n", conta->reg.saldo);
+    }
+    return;
+}
+
+void depositarSalario(BANCO *l)
 {
     PONT conta = l->inicio;
     while (conta->prox != NULL)
@@ -405,7 +437,7 @@ void informacoesConta(BANCO *l)
         printf("\nsalario: %.2f", mostra->reg.salario);
         printf("\nsaldo: %.2f", mostra->reg.saldo);
         printf("\ncredito: %.2f", mostra->reg.credito);
-        printf("\ndivida: %.2f", mostra->reg.divida);
+        printf("\ndivida: %.2f", mostra->reg.fatura);
         printf("\nconta: %d", mostra->reg.conta);
         printf("\nsenha: %d\n\n", mostra->reg.senha);
         mostra = mostra->prox;

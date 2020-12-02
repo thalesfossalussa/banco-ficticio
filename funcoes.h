@@ -12,7 +12,7 @@ typedef struct
     float salario;
     float saldo;
     float credito;
-    float divida;
+    float fatura;
     int conta;
     int senha;
 } REGISTRO;
@@ -83,7 +83,7 @@ void login(BANCO *l);
 /* Realiza o deposito
  * l: Lista do banco
  */
-void deposito(BANCO *l);
+void deposito(BANCO *l, int nconta , float valor);
 
 /* Realiza uma limpeza na lista BANCO
  * l: lista do banco
@@ -100,5 +100,8 @@ void printMenu(void);
 
 // Mostra as informações do programa
 void info(void);
+
+// Função que deposita o salario para todas as contas do banco
+void depositarSalario(BANCO *l);
 
 #endif

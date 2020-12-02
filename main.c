@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include <time.h>
 #include "funcoes.h"
 
 int main()
@@ -36,7 +35,7 @@ int main()
             select = 0;
             break;
         case 3: //passa o mês e deposita os salários nas contas
-            deposito(&contas);
+            depositarSalario(&contas);
             mes++;
             select = 0;
             break;
