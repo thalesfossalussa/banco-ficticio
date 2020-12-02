@@ -6,7 +6,7 @@
 #include "funcoes.h"
 
 void inicializarBanco(BANCO* l){
-l->inicio = NULL;
+    l->inicio = NULL;
 }
 
 int tamanhoBanco(BANCO* l) {
@@ -57,14 +57,14 @@ void inserirConta(BANCO* l) {
     }
 
     printf("\nSeu CPF:");
-    scanf("%f", &i->reg.cpf);
+    scanf("%ld", &i->reg.cpf);
     while(i->reg.cpf>99999999999 || i->reg.cpf<10000000000){ //caso o cpf tenha menos de 11 dígitos ele não será aceito, funciona já que não há cpf que comece com 0
         printf("\n==========================================\n");
         printf("CPF invalido! Por favor, insira novamente.\n");
         printf("==========================================\n");
-        scanf("%f", &i->reg.cpf);
+        scanf("%ld", &i->reg.cpf);
     }
-    printf("\n*%.0f*\n", i->reg.cpf);
+    printf("\n*%ld*\n", i->reg.cpf);
     printf("\nSua data de nascimento no seguinte formato dd mm aaaa:");
     scanf("%d %d %d", &i->reg.dia, &i->reg.mes, &i->reg.ano);
     while(i->reg.dia<1 || i->reg.dia>31 || i->reg.mes<1 || i->reg.mes>12 || i->reg.ano>2002){ //não fiz casos especiais para ano bisexto e essas paradas, se quiser dar uma olhada nisso fique a vontade, da pra colocar uns if's no while tranquilamente
@@ -78,7 +78,7 @@ void inserirConta(BANCO* l) {
     while(i->reg.conta>99999) i->reg.conta=i->reg.conta/10;//considerando que a conta máxima pode ser 201199, faz se necessária essa divisão
     
     printf("\nSalario mensal:");
-    scanf("%d", &i->reg.salario);
+    scanf("%e", &i->reg.salario);
     i->reg.saldo=i->reg.salario;
     i->reg.credito=i->reg.salario*0.2;
     i->reg.divida=0;
@@ -179,33 +179,33 @@ void operacoes(BANCO* l, int nconta){
         switch (a)
         {
         case 1:
-        printf("Seu saldo e de RS:%d.\n", conta->reg.saldo);
+        printf("Seu saldo e de RS:%e.\n", conta->reg.saldo);
             break;
         
         case 2:
-        printf("Voce tem RS:%d disponiveis\nValor do pagamento: ", conta->reg.saldo);
+        printf("Voce tem RS:%f disponiveis\nValor do pagamento: ", conta->reg.saldo);
         scanf("%d", &pagamento);
         printf("\n");
         if(pagamento>conta->reg.saldo) printf("Saldo insuficiente!\n");
         else{
             conta->reg.saldo=(conta->reg.saldo) - pagamento;
-            printf("\nSeu novo saldo e de RS:%d\n", conta->reg.saldo);
+            printf("\nSeu novo saldo e de RS:%f\n", conta->reg.saldo);
         }
             break;
         
         case 3:
-        printf("Voce tem RS:%d disponiveis\nValor do saque: ", conta->reg.saldo);
+        printf("Voce tem RS:%f disponiveis\nValor do saque: ", conta->reg.saldo);
         scanf("%d", &pagamento);
         printf("\n");
         if(pagamento>conta->reg.saldo) printf("Saldo insuficiente!\n");
         else{
             conta->reg.saldo=(conta->reg.saldo) - pagamento;
-            printf("\nSeu novo saldo e de RS:%d", conta->reg.saldo);
+            printf("\nSeu novo saldo e de RS:%f", conta->reg.saldo);
         }
             break;
         
         case 4:
-        printf("Voce tem RS:%d disponiveis\nValor a ser transferido RS:", conta->reg.saldo);
+        printf("Voce tem RS:%f disponiveis\nValor a ser transferido RS:", conta->reg.saldo);
         scanf("%d", &pagamento);
         printf("\n");
         if(pagamento>conta->reg.saldo) printf("Saldo insuficiente!\n");
@@ -217,29 +217,29 @@ void operacoes(BANCO* l, int nconta){
             break;
        
         case 5:
-        printf("Seu limite é de RS:%d.\n", conta->reg.credito);
+        printf("Seu limite é de RS:%f.\n", conta->reg.credito);
             break;
       
         case 6:
-        printf("Voce tem RS:%d de credito disponivel\nValor do pagamento: ", conta->reg.credito-conta->reg.divida);
+        printf("Voce tem RS:%f de credito disponivel\nValor do pagamento: ", conta->reg.credito-conta->reg.divida);
         scanf("%d", &pagamento);
         printf("\n");
         if((conta->reg.divida + pagamento)>conta->reg.credito) printf("Credito insuficiente!\n"); 
         else{
             conta->reg.divida=(conta->reg.divida) + pagamento;
-            printf("\nCredito disponivel RS:%d.", conta->reg.saldo - conta->reg.divida);
+            printf("\nCredito disponivel RS:%f.", conta->reg.saldo - conta->reg.divida);
         }
             break;
       
         case 7:
-        printf("Voce tem um total de RS%d de credito a ser pago.\nDeseja pagar? (1 para sim | 0 para não)\n", conta->reg.divida);
+        printf("Voce tem um total de RS%f de credito a ser pago.\nDeseja pagar? (1 para sim | 0 para não)\n", conta->reg.divida);
         scanf("%d", &pagamento);
         if(pagamento==0) break;
         if(pagamento==1){
             if(conta->reg.divida>conta->reg.saldo) printf("Saldo insuficiente!\n");
             else{
                 conta->reg.saldo=conta->reg.saldo-conta->reg.divida;
-                printf("Pagamento feito com sucesso!\nNovo saldo disponivel RS:%d.\n",conta->reg.saldo);
+                printf("Pagamento feito com sucesso!\nNovo saldo disponivel RS:%f.\n",conta->reg.saldo);
             }
         }
             break;
