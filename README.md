@@ -19,3 +19,5 @@ Nos tempos atuais estamos cada vez mais migrando para os meios digitais, diminui
 
 ## Motivação
 Visto que hoje em dia dificilmente precisamos estar portando dinheiro físico, decidimos criar um software que simula um banco onde podemos criar uma conta instantâneamente para depositar o dinheiro e realizar a maior parte das operações cotidianas sem dificuldade.
+
+[Vídeo demonstrativo](https://youtu.be/eaK6lLVTKEk)
