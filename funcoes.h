@@ -5,12 +5,14 @@
 typedef struct
 {
     char nome[30];
-    long int cpf;
+    int cpf;
+    int cpfd;
     int dia;
     int mes;
     int ano;
     float salario;
     float saldo;
+    float despesas;
     float credito;
     float fatura;
     int conta;
@@ -43,12 +45,6 @@ void inicializarBanco(BANCO *l);
  */
 int tamanhoBanco(BANCO *l);
 
-/* Busca uma conta no BANCO
- * l: lista de contas
- * cpf: cpf que será buscado
- */
-PONT buscarConta(BANCO *l, long int cpf);
-
 /* Insere uma conta no BANCO
  * l: Lista do banco
  */
@@ -58,7 +54,7 @@ void inserirConta(BANCO *l);
  * l: Lista do banco
  * cpf: cpf do portador da conta que será excluída
  */
-void excluirConta(BANCO *l, long int cpf);
+void excluirConta(BANCO *l, int conta);
 
 // Printa o menu de operações
 void menuOperacoes(void);

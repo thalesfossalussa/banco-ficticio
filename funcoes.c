@@ -22,20 +22,6 @@ int tamanhoBanco(BANCO *l)
     return tam;
 }
 
-PONT buscarConta(BANCO *l, long int cpf)
-{
-    PONT *ant = NULL;
-    PONT atual = l->inicio;
-    while ((atual != NULL) && (atual->reg.cpf != cpf))
-    {
-        *ant = atual;
-        atual = atual->prox;
-    }
-    if ((atual != NULL) && (atual->reg.cpf == cpf))
-        return atual;
-    return NULL;
-}
-
 void inserirConta(BANCO *l)
 {
     PONT i, ant;
@@ -72,16 +58,15 @@ void inserirConta(BANCO *l)
             break;
     }
 
-    printf("\nSeu CPF:");
-    scanf("%ld", &i->reg.cpf);
-    while (i->reg.cpf > 99999999999 || i->reg.cpf < 10000000000)
-    { //caso o cpf tenha menos de 11 dígitos ele não será aceito, funciona já que não há cpf que comece com 0
+    printf("\nSeu CPF no seguinte formato ********* **\nCPF:");
+    scanf("%d %d", &i->reg.cpf, &i->reg.cpfd);
+    while (i->reg.cpf > 999999999 || i->reg.cpf < 100000000 || i->reg.cpfd>99 || i->reg.cpfd<1)
+    { //caso o cpf tenha menos de 9 dígitos e o digito tenha menos de 2 dígitos ele não será aceito, funciona já que não há cpf que comece com 0
         printf("\n==========================================\n");
         printf("CPF invalido! Por favor, insira novamente.\n");
-        printf("==========================================\n");
-        scanf("%ld", &i->reg.cpf);
+        printf("==========================================\nCPF:");
+        scanf("%d %d", &i->reg.cpf, &i->reg.cpfd);
     }
-    printf("\n*%ld*\n", i->reg.cpf);
     printf("\nSua data de nascimento no seguinte formato dd mm aaaa:");
     scanf("%d %d %d", &i->reg.dia, &i->reg.mes, &i->reg.ano);
     while (i->reg.dia < 1 || i->reg.dia > 31 || i->reg.mes < 1 || i->reg.mes > 12 || i->reg.ano > 2002)
@@ -92,13 +77,17 @@ void inserirConta(BANCO *l)
         scanf("%d %d %d", &i->reg.dia, &i->reg.mes, &i->reg.ano);
     }
 
-    i->reg.conta = i->reg.cpf * i->reg.ano / 1000000000; //gerando um número de conta com 5 dígitos, quando o cpf começa com 499.... essa conta gera 6 números
+    i->reg.conta = i->reg.cpf * i->reg.ano; //gerando o número de conta com 5 dígitos
     while (i->reg.conta > 99999)
-        i->reg.conta = i->reg.conta / 10; //considerando que a conta máxima pode ser 201199, faz se necessária essa divisão
+        i->reg.conta = i->reg.conta / 10; //reduzindo-o aos 5 dígitos
 
     printf("\nSalario mensal R$");
     scanf("%f", &i->reg.salario);
-    i->reg.saldo = i->reg.salario;
+    
+    printf("\nDespesa mensal R$");
+    scanf("%f", &i->reg.despesas);
+    
+    i->reg.saldo = i->reg.salario-i->reg.despesas;
     i->reg.credito = i->reg.salario * 0.2;
     i->reg.fatura = 0;
 
@@ -147,13 +136,13 @@ void inserirConta(BANCO *l)
     return;
 }
 
-void excluirConta(BANCO *l, long int cpf)
-{ //busca o cpf do titular para exluir a conta
+void excluirConta(BANCO *l, int conta)
+{ //busca a conta do titular para exlui-la
     PONT ant, atual;
     atual = l->inicio;
     ant = NULL;
-    while (atual->reg.cpf != cpf)
-    {                        //caso os cpfs não batam o laço continua
+    while (atual->reg.conta != conta)
+    {                        //caso as contas não batam o laço continua
         ant = atual;         //o anterior se torna o atual
         atual = atual->prox; //o atual se torna o próximo
     }
@@ -196,7 +185,8 @@ void menuOperacoes()
     printf("7 - Consultar fatura.\n");
     printf("8 - Pagamento com credito.\n");
     printf("9 - Pagar fatura.\n");
-    printf("10- Encerrrar conta.\n");
+    printf("10 - Alterar despesas mensais.\n");
+    printf("11 - Encerrrar conta.\n");
     printf("0 - Sair.\n");
     printf("-----------------------------------------------------------\n");
     printf("Opcao: ");
@@ -204,8 +194,9 @@ void menuOperacoes()
 
 void operacoes(BANCO *l, int nconta)
 {
-    int fechar = 0, a = 0, csenha, excluir;
-    float ccpf, pagamento;
+    int fechar = 0, a = 0, excluir;
+    int cpf, cpfd, senha;
+    float pagamento;
     PONT conta = l->inicio;
     while (conta->prox != NULL)
     {
@@ -224,6 +215,13 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 2:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
             printf("Voce tem R$%.2f disponiveis\nValor do pagamento: ", conta->reg.saldo);
             scanf("%f", &pagamento);
             printf("\n");
@@ -237,11 +235,21 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 3:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
             printf("Voce tem R$%.2f disponiveis\nValor do saque: ", conta->reg.saldo);
             scanf("%f", &pagamento);
             printf("\n");
             if (pagamento > conta->reg.saldo)
+            {
                 printf("Saldo insuficiente!\n");
+                break ;
+            }
             else
             {
                 conta->reg.saldo = (conta->reg.saldo) - pagamento;
@@ -256,6 +264,13 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 5:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
             printf("Voce tem R$%.2f disponiveis\nValor a ser transferido R$", conta->reg.saldo);
             scanf("%f", &pagamento);
             printf("\n");
@@ -270,13 +285,20 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 6:
-            printf("Seu limite é de R$%.2f\n", conta->reg.credito);
+            printf("Seu limite e de R$%.2f\n", conta->reg.credito);
             break;
 
         case 7:
-            printf("O valor da fatura é de R$%.2f\n", conta->reg.fatura);
+            printf("O valor da fatura e de R$%.2f\n", conta->reg.fatura);
             break;
         case 8:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
             printf("Voce tem R$%.2f de credito disponivel\nValor do pagamento: ", conta->reg.credito - conta->reg.fatura);
             scanf("%f", &pagamento);
             printf("\n");
@@ -285,11 +307,18 @@ void operacoes(BANCO *l, int nconta)
             else
             {
                 conta->reg.fatura = (conta->reg.fatura) + pagamento;
-                printf("\nValor da conta descontando o credito disponivel R$%.2f.", conta->reg.saldo - conta->reg.fatura);
+                printf("\nValor da conta descontando o credito disponivel R$%.2f.", conta->reg.credito - conta->reg.fatura);
             }
             break;
 
         case 9:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n(Para mais informacoes, acesse o opcao *info* no menu inicial.)\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
             printf("Voce tem um total de R$%.2f de credito a ser pago.\nDeseja pagar? (1 para sim | 0 para não)\n", conta->reg.fatura);
             scanf("%f", &pagamento);
             if (pagamento == 0)
@@ -308,13 +337,36 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 10:
-            while (ccpf != conta->reg.cpf || csenha != conta->reg.senha)
+            printf("Insira o valor da nova despesa mensal.\nR$:");
+            scanf("%f", &conta->reg.despesas);
+            while(conta->reg.despesas>conta->reg.salario){
+                printf("\n=====================================================\n");
+                printf("Despesa mensal maior que o salario, insira novamente!\n");
+                printf("=====================================================\n");
+                printf("Insira o valor da nova despesa mensal.\nR$:");
+                scanf("%f", &conta->reg.despesas);
+            }
+
+            break;
+
+
+        case 11:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n(Para mais informacoes, acesse o opcao *info* no menu inicial.)\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
+            while (cpf != conta->reg.cpf || cpfd!=conta->reg.cpfd || senha != conta->reg.senha)
             {
-                printf("\n\nCerto, primeiro precisamos que voce confirme seu cpf: ");
-                scanf("%f", &ccpf);
-                printf("\nAgora digite sua senha: ");
-                scanf("%d", &csenha);
-                if (ccpf != conta->reg.cpf || csenha != conta->reg.senha)
+                printf("\n\nCerto, primeiro precisamos que voce confirme seu cpf no formato ********* **\nCPF:");
+                scanf("%d", &cpf);
+                scanf("%d", &cpfd);
+                printf("\nAgora digite sua senha:");
+                scanf("%d &d", &senha);
+
+                if (cpf != conta->reg.cpf || cpfd!=conta->reg.cpfd || senha != conta->reg.senha)
                 {
                     printf("Dados incorretos, deseja tentar novamente?\n(1 para sim, 0 para nao).\nOpcao: ");
                     scanf("%d", &excluir);
@@ -324,8 +376,8 @@ void operacoes(BANCO *l, int nconta)
                 }
                 else
                 {
-                    excluirConta(l, conta->reg.cpf);
-                    printf("Obrigado pelo seu tempo conosco, ate breve.\n");
+                    excluirConta(l, conta->reg.conta);
+                    printf("Obrigado pelo seu tempo conosco, ate uma proxima.\n");
                     return;
                 }
             }
@@ -348,13 +400,13 @@ void login(BANCO *l)
     PONT conta;
     if (l->inicio == NULL)
     {
-        printf("Ainda nao possuímos contas cadastradas, crie sua conta agora escolhendo a opcao 2\n");
+        printf("Ainda nao possuimos contas cadastradas, crie sua conta agora escolhendo a opcao 2\n");
         return;
     }
     conta = l->inicio;
     printf("Digite seu numero de conta:");
     scanf("%d", &nconta);
-    printf("\n\nDigite sua senha:");
+    printf("\nDigite sua senha:");
     scanf("%d", &senha);
     while (1)
     { //percorre as structs
@@ -370,7 +422,7 @@ void login(BANCO *l)
     }
     if (v > 0)
     {
-        printf("seja bem vindo(a) %s!\n", conta->reg.nome);
+        printf("\nSeja bem vindo(a), %s!\n", conta->reg.nome);
         operacoes(l, conta->reg.conta);
     }
     else
@@ -396,7 +448,7 @@ void deposito(BANCO *l, int nconta , float valor)
     else
     {
         conta->reg.saldo += valor;
-        printf("\nValor depositado na conta, novo saldo é R$%.2f\n", conta->reg.saldo);
+        printf("\nValor depositado na conta, novo saldo e R$%.2f\n", conta->reg.saldo);
     }
     return;
 }
@@ -404,14 +456,16 @@ void deposito(BANCO *l, int nconta , float valor)
 void depositarSalario(BANCO *l)
 {
     PONT conta = l->inicio;
-    while (conta->prox != NULL)
+    while (conta!= NULL)
     {
-        conta->reg.saldo = conta->reg.saldo + conta->reg.salario;
+        conta->reg.saldo = conta->reg.saldo + conta->reg.salario - conta->reg.despesas;
+        conta->reg.fatura=conta->reg.fatura*1.05;
+        if(conta->reg.fatura>conta->reg.credito){
+            conta->reg.saldo=conta->reg.saldo-conta->reg.fatura;
+            conta->reg.fatura=0;
+        }
         conta = conta->prox;
     }
-    if (conta->prox == NULL)
-        conta->reg.saldo = conta->reg.saldo + conta->reg.salario;
-    return;
 }
 
 void limpa(BANCO *l)
@@ -431,10 +485,12 @@ void informacoesConta(BANCO *l)
     PONT mostra = l->inicio;
     while (mostra != NULL)
     {
-        printf("cpf: %ld", mostra->reg.cpf);
+        printf("cpf: %d", mostra->reg.cpf);
+        printf("\ndigito: %d", mostra->reg.cpfd);
         printf("\nnome: %s", mostra->reg.nome);
         printf("\ndata: %d/%d/%d", mostra->reg.dia, mostra->reg.mes, mostra->reg.ano);
         printf("\nsalario: %.2f", mostra->reg.salario);
+        printf("\ndespesas: %.2f", mostra->reg.despesas);
         printf("\nsaldo: %.2f", mostra->reg.saldo);
         printf("\ncredito: %.2f", mostra->reg.credito);
         printf("\ndivida: %.2f", mostra->reg.fatura);
@@ -447,7 +503,7 @@ void informacoesConta(BANCO *l)
 
 void printMenu(void)
 {
-    printf("Menu\n");
+    printf("===============Menu==============\n\n");
     printf("1 - Acessar sua conta\n");
     printf("---------------------------------\n");
     printf("2 - Criar sua conta\n");
@@ -463,18 +519,20 @@ void info(void)
 {
     int a;
 
-    printf("Para informacoes sobre o funcionamento, digite 1.\n");
-    printf("-------------------------------------------------\n");
-    printf("Para informacoes sobre o programa, digite 2.\n");
-    printf("-------------------------------------------------\n");
-    printf("Para retornar, digite 0.\n\nOpcao:");
-    scanf("%d", &a);
     while (1)
     {
-        while (a != 1 && a != 2 && a != 0)
+        printf("Para informacoes sobre o funcionamento, digite 1.\n");
+        printf("--------------------------------------------------------\n");
+        printf("Para informacoes sobre o programa, digite 2.\n");
+        printf("-------------------------------------------------------\n");
+        printf("Para informacoes sobre os descontos no saldo, digite 3.\n");
+        printf("-------------------------------------------------------\n");
+        printf("Para retornar, digite 0.\n\nOpcao:");
+        scanf("%d", &a);
+
+        while (a != 1 && a != 2 && a!=3 && a != 0)
         {
-            printf("Invalido, tente novamente\nOpcoes validas: 1 e 2, 0 para sair.\nOpcao:");
-            scanf("%d", &a);
+            printf("Invalido, tente novamente\nOpcoes validas: 1, 2, 3 e 0 para sair.\n\n");
         }
 
         if (a == 1)
@@ -482,15 +540,18 @@ void info(void)
 
             printf("\nNeste programa voce podera criar uma conta em um banco e administra-la. ");
             printf("Ao escolher a opcao de criar uma conta voce passara por um processo de coleta de dados necessarios para a criacao da sua conta, tudo bem intuivo. ");
-            printf("Ao acessar a opcao de login voce sera levado \n");
-            printf("\nOpcao:");
-            scanf("%d", &a);
+            printf("Ao acessar a opcao de login voce sera levado podera acessar a sua conta e realizar diversas operacoes la listadas.\n\n");
         }
 
         if (a == 2)
         {
-            printf("\nPrograma feito como trabalho final da materia de AED1 pelo curso de Ciencias da Computacao, UFG\nCriadores:Joao Paulo Lopes de Carvalho Grilo e Thales fossalussa\n11/2020\n\nOpcao:");
-            scanf("%d", &a);
+            printf("\nPrograma feito como trabalho final da materia de AED1 pelo curso de Ciencias da Computacao, UFG\nCriadores:Joao Paulo Lopes de Carvalho Grilo e Thales fossalussa\n11/2020\n\n");
+        }
+        
+        if(a == 3){
+            printf("\nExistem dois descontos automaticos que podem ser aplicados no saldo da conta, o das despesas mensais e a fatura do credito gasto quando o limite de credito e ultrapassado.\n");
+            printf("A cada mes que se passa e aplicado um juro de 5% sobre o credito ja gasto.\n");
+            printf("Caso a soma das despesas e da fatura de credito descontada seja superior ao saldo disponivel na conta, ela sera negativada e impedida de realizar operacoes que gastariam debito ou credito ate que a situacao seja normalizada ou o encerramento da conta.\n\n");
         }
         if (a == 0)
             break;
