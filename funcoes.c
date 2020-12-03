@@ -285,11 +285,11 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 6:
-            printf("Seu limite é de R$%.2f\n", conta->reg.credito);
+            printf("Seu limite e de R$%.2f\n", conta->reg.credito);
             break;
 
         case 7:
-            printf("O valor da fatura é de R$%.2f\n", conta->reg.fatura);
+            printf("O valor da fatura e de R$%.2f\n", conta->reg.fatura);
             break;
         case 8:
             if(conta->reg.saldo < 0){
@@ -307,7 +307,7 @@ void operacoes(BANCO *l, int nconta)
             else
             {
                 conta->reg.fatura = (conta->reg.fatura) + pagamento;
-                printf("\nValor da conta descontando o credito disponivel R$%.2f.", conta->reg.saldo - conta->reg.fatura);
+                printf("\nValor da conta descontando o credito disponivel R$%.2f.", conta->reg.credito - conta->reg.fatura);
             }
             break;
 
@@ -448,7 +448,7 @@ void deposito(BANCO *l, int nconta , float valor)
     else
     {
         conta->reg.saldo += valor;
-        printf("\nValor depositado na conta, novo saldo é R$%.2f\n", conta->reg.saldo);
+        printf("\nValor depositado na conta, novo saldo e R$%.2f\n", conta->reg.saldo);
     }
     return;
 }
