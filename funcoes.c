@@ -47,15 +47,16 @@ void inserirConta(BANCO *l)
 
     printf("-------------------------------------------------------------------------------\n");
     printf("Ok, para comecarmos nos diga o seu nome:\n");
+    getchar();
     while (1)
     {
-        scanf("%s", i->reg.nome);
+        scanf("%[^\n]s", i->reg.nome);
         printf("Senhor(a) %s?\nCaso tenha errado, basta digitar o nome correto, caso esteja correto, digite 1:\nOpcao:", i->reg.nome);
         scanf("%d", &c);
-        if (c == 0)
-            printf("Nome: ");
         if (c == 1)
             break;
+        else  
+            printf("Nome: ");
     }
 
     printf("\nSeu CPF no seguinte formato ********* **\nCPF:");
