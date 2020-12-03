@@ -98,7 +98,9 @@ void inserirConta(BANCO *l)
 
     printf("\nSalario mensal R$");
     scanf("%f", &i->reg.salario);
-    i->reg.saldo = i->reg.salario;
+    printf("\nDespesa mensal R$");
+    scanf("%f", &i->reg.despesas);
+    i->reg.saldo = i->reg.salario-i->reg.despesas;
     i->reg.credito = i->reg.salario * 0.2;
     i->reg.fatura = 0;
 
@@ -196,7 +198,8 @@ void menuOperacoes()
     printf("7 - Consultar fatura.\n");
     printf("8 - Pagamento com credito.\n");
     printf("9 - Pagar fatura.\n");
-    printf("10- Encerrrar conta.\n");
+    printf("10 - Alterar despesas mensais.\n");
+    printf("11 - Encerrrar conta.\n");
     printf("0 - Sair.\n");
     printf("-----------------------------------------------------------\n");
     printf("Opcao: ");
@@ -224,6 +227,13 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 2:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
             printf("Voce tem R$%.2f disponiveis\nValor do pagamento: ", conta->reg.saldo);
             scanf("%f", &pagamento);
             printf("\n");
@@ -237,6 +247,13 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 3:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
             printf("Voce tem R$%.2f disponiveis\nValor do saque: ", conta->reg.saldo);
             scanf("%f", &pagamento);
             printf("\n");
@@ -256,6 +273,13 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 5:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
             printf("Voce tem R$%.2f disponiveis\nValor a ser transferido R$", conta->reg.saldo);
             scanf("%f", &pagamento);
             printf("\n");
@@ -277,6 +301,13 @@ void operacoes(BANCO *l, int nconta)
             printf("O valor da fatura é de R$%.2f\n", conta->reg.fatura);
             break;
         case 8:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
             printf("Voce tem R$%.2f de credito disponivel\nValor do pagamento: ", conta->reg.credito - conta->reg.fatura);
             scanf("%f", &pagamento);
             printf("\n");
@@ -290,6 +321,13 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 9:
+            if(conta->reg.saldo < 0){
+                printf("\n==============================================================================================\n");
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n", conta->reg.salario*-1);
+                printf("==============================================================================================\n");
+                break;
+            }
+            
             printf("Voce tem um total de R$%.2f de credito a ser pago.\nDeseja pagar? (1 para sim | 0 para não)\n", conta->reg.fatura);
             scanf("%f", &pagamento);
             if (pagamento == 0)
@@ -308,6 +346,20 @@ void operacoes(BANCO *l, int nconta)
             break;
 
         case 10:
+            printf("Insira o valor da nova despesa mensal.\nR$:");
+            scanf("%f", &conta->reg.despesas);
+            while(conta->reg.despesas>conta->reg.salario){
+                printf("\n=====================================================\n");
+                printf("Despesa mensal maior que o salario, insira novamente!\n");
+                printf("=====================================================\n");
+                printf("Insira o valor da nova despesa mensal.\nR$:");
+                scanf("%f", &conta->reg.despesas);
+            }
+
+            break;
+
+
+        case 11:
             while (ccpf != conta->reg.cpf || csenha != conta->reg.senha)
             {
                 printf("\n\nCerto, primeiro precisamos que voce confirme seu cpf: ");
@@ -404,14 +456,16 @@ void deposito(BANCO *l, int nconta , float valor)
 void depositarSalario(BANCO *l)
 {
     PONT conta = l->inicio;
-    while (conta->prox != NULL)
+    while (conta!= NULL)
     {
-        conta->reg.saldo = conta->reg.saldo + conta->reg.salario;
+        conta->reg.saldo = conta->reg.saldo + conta->reg.salario - conta->reg.despesas;
+        conta->reg.fatura=conta->reg.fatura*1.05;
+        if(conta->reg.fatura>conta->reg.credito){
+            conta->reg.saldo=conta->reg.saldo-conta->reg.fatura;
+            conta->reg.fatura=0;
+        }
         conta = conta->prox;
     }
-    if (conta->prox == NULL)
-        conta->reg.saldo = conta->reg.saldo + conta->reg.salario;
-    return;
 }
 
 void limpa(BANCO *l)

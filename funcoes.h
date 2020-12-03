@@ -11,6 +11,7 @@ typedef struct
     int ano;
     float salario;
     float saldo;
+    float despesas;
     float credito;
     float fatura;
     int conta;
