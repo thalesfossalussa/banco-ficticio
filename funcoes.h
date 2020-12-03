@@ -80,11 +80,6 @@ void transferencia(BANCO *l, float transferido);
  */
 void login(BANCO *l);
 
-/* Realiza o deposito
- * l: Lista do banco
- */
-void deposito(BANCO *l, int nconta , float valor);
-
 /* Realiza uma limpeza na lista BANCO
  * l: lista do banco
  */
@@ -100,6 +95,11 @@ void printMenu(void);
 
 // Mostra as informações do programa
 void info(void);
+
+/* Realiza o deposito
+ * l: Lista do banco
+ */
+void deposito(BANCO *l, int nconta , float valor);
 
 // Função que deposita o salario para todas as contas do banco
 void depositarSalario(BANCO *l);
