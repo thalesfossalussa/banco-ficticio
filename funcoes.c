@@ -323,7 +323,7 @@ void operacoes(BANCO *l, int nconta)
         case 9:
             if(conta->reg.saldo < 0){
                 printf("\n==============================================================================================\n");
-                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n", conta->reg.salario*-1);
+                printf("Sua conta esta bloqueada para esse tipo de operacao ate que seja paga a divida gerada de R$%.2f\n(Para mais informacoes, acesse o opcao *info* no menu inicial.)\n", conta->reg.salario*-1);
                 printf("==============================================================================================\n");
                 break;
             }
@@ -517,18 +517,20 @@ void info(void)
 {
     int a;
 
-    printf("Para informacoes sobre o funcionamento, digite 1.\n");
-    printf("-------------------------------------------------\n");
-    printf("Para informacoes sobre o programa, digite 2.\n");
-    printf("-------------------------------------------------\n");
-    printf("Para retornar, digite 0.\n\nOpcao:");
-    scanf("%d", &a);
     while (1)
     {
-        while (a != 1 && a != 2 && a != 0)
+        printf("Para informacoes sobre o funcionamento, digite 1.\n");
+        printf("--------------------------------------------------------\n");
+        printf("Para informacoes sobre o programa, digite 2.\n");
+        printf("-------------------------------------------------------\n");
+        printf("Para informacoes sobre os descontos no saldo, digite 3.\n");
+        printf("-------------------------------------------------------\n");
+        printf("Para retornar, digite 0.\n\nOpcao:");
+        scanf("%d", &a);
+
+        while (a != 1 && a != 2 && a!=3 && a != 0)
         {
-            printf("Invalido, tente novamente\nOpcoes validas: 1 e 2, 0 para sair.\nOpcao:");
-            scanf("%d", &a);
+            printf("Invalido, tente novamente\nOpcoes validas: 1, 2, 3 e 0 para sair.\n\n");
         }
 
         if (a == 1)
@@ -536,15 +538,18 @@ void info(void)
 
             printf("\nNeste programa voce podera criar uma conta em um banco e administra-la. ");
             printf("Ao escolher a opcao de criar uma conta voce passara por um processo de coleta de dados necessarios para a criacao da sua conta, tudo bem intuivo. ");
-            printf("Ao acessar a opcao de login voce sera levado \n");
-            printf("\nOpcao:");
-            scanf("%d", &a);
+            printf("Ao acessar a opcao de login voce sera levado podera acessar a sua conta e realizar diversas operacoes la listadas.\n\n");
         }
 
         if (a == 2)
         {
-            printf("\nPrograma feito como trabalho final da materia de AED1 pelo curso de Ciencias da Computacao, UFG\nCriadores:Joao Paulo Lopes de Carvalho Grilo e Thales fossalussa\n11/2020\n\nOpcao:");
-            scanf("%d", &a);
+            printf("\nPrograma feito como trabalho final da materia de AED1 pelo curso de Ciencias da Computacao, UFG\nCriadores:Joao Paulo Lopes de Carvalho Grilo e Thales fossalussa\n11/2020\n\n");
+        }
+        
+        if(a == 3){
+            printf("\nExistem dois descontos automaticos que podem ser aplicados no saldo da conta, o das despesas mensais e a fatura do credito gasto quando o limite de credito e ultrapassado.\n");
+            printf(" A cada mes que se passa é aplicado um juro de 5% sobre o credito ja gasto.\n");
+            printf(" Caso a soma das despesas e da fatura de credito descontada seja superior ao saldo disponivel na conta, ela sera negativada e impedida de realizar operacoes que gastariam debito ou credito ate que a situacao seja normalizada.\n\n");
         }
         if (a == 0)
             break;
