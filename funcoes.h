@@ -4,7 +4,7 @@
 // struct que abriga os dados da conta/registro do cliente
 typedef struct
 {
-    char nome[30];
+    char nome[200];
     int cpf;
     int cpfd;
     int dia;
@@ -52,7 +52,7 @@ void inserirConta(BANCO *l);
 
 /* Exclui uma conta do BANCO
  * l: Lista do banco
- * cpf: cpf do portador da conta que será excluída
+ * conta: Número da conta que será excluída
  */
 void excluirConta(BANCO *l, int conta);
 
@@ -76,11 +76,6 @@ void transferencia(BANCO *l, float transferido);
  */
 void login(BANCO *l);
 
-/* Realiza o deposito
- * l: Lista do banco
- */
-void deposito(BANCO *l, int nconta , float valor);
-
 /* Realiza uma limpeza na lista BANCO
  * l: lista do banco
  */
@@ -96,6 +91,13 @@ void printMenu(void);
 
 // Mostra as informações do programa
 void info(void);
+
+/* Realiza o deposito
+ * l: Lista do banco
+ * nconta: número da conta em que será depositado
+ * valor: valor que será depositado em conta
+ */
+void deposito(BANCO *l, int nconta , float valor);
 
 // Função que deposita o salario para todas as contas do banco
 void depositarSalario(BANCO *l);

@@ -365,7 +365,7 @@ void operacoes(BANCO *l, int nconta)
                 scanf("%d", &cpf);
                 scanf("%d", &cpfd);
                 printf("\nAgora digite sua senha:");
-                scanf("%d &d", &senha);
+                scanf("%d", &senha);
 
                 if (cpf != conta->reg.cpf || cpfd!=conta->reg.cpfd || senha != conta->reg.senha)
                 {
@@ -541,18 +541,18 @@ void info(void)
 
             printf("\nNeste programa voce podera criar uma conta em um banco e administra-la. ");
             printf("Ao escolher a opcao de criar uma conta voce passara por um processo de coleta de dados necessarios para a criacao da sua conta, tudo bem intuivo. ");
-            printf("Ao acessar a opcao de login voce sera levado podera acessar a sua conta e realizar diversas operacoes la listadas.\n\n");
+            printf("Ao acessar a opcao de login voce sera levado podera acessar a sua conta e realizar diversas operacoes listadas.\n\n");
         }
 
         if (a == 2)
         {
-            printf("\nPrograma feito como trabalho final da materia de AED1 pelo curso de Ciencias da Computacao, UFG\nCriadores:Joao Paulo Lopes de Carvalho Grilo e Thales fossalussa\n11/2020\n\n");
+            printf("\nPrograma feito como trabalho final da materia de AED1 pelo curso de Ciencias da Computacao, UFG\nCriadores:Joao Paulo Lopes de Carvalho Grilo e Thales Fossalussa\n11/2020\n\n");
         }
         
         if(a == 3){
             printf("\nExistem dois descontos automaticos que podem ser aplicados no saldo da conta, o das despesas mensais e a fatura do credito gasto quando o limite de credito e ultrapassado.\n");
-            printf("A cada mes que se passa e aplicado um juro de 5% sobre o credito ja gasto.\n");
-            printf("Caso a soma das despesas e da fatura de credito descontada seja superior ao saldo disponivel na conta, ela sera negativada e impedida de realizar operacoes que gastariam debito ou credito ate que a situacao seja normalizada ou o encerramento da conta.\n\n");
+            printf("\nA cada mes que se passa e aplicado um juros de 5%% sobre o credito ja gasto.\n");
+            printf("\nCaso a soma das despesas e da fatura de credito descontada seja superior ao saldo disponivel na conta, ela sera negativada e impedida de realizar operacoes que gastariam debito ou credito ate que a situacao seja normalizada ou o encerramento da conta.\n\n");
         }
         if (a == 0)
             break;
