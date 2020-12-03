@@ -52,7 +52,7 @@ void inserirConta(BANCO *l);
 
 /* Exclui uma conta do BANCO
  * l: Lista do banco
- * cpf: cpf do portador da conta que será excluída
+ * conta: Número da conta que será excluída
  */
 void excluirConta(BANCO *l, int conta);
 
@@ -94,6 +94,8 @@ void info(void);
 
 /* Realiza o deposito
  * l: Lista do banco
+ * nconta: número da conta em que será depositado
+ * valor: valor que será depositado em conta
  */
 void deposito(BANCO *l, int nconta , float valor);
 
