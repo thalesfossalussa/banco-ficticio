@@ -46,10 +46,10 @@ void inserirConta(BANCO *l)
     } //processo de alocação de memória feito, agora para o preenchimento de dados
 
     printf("-------------------------------------------------------------------------------\n");
-    printf("Ok, para comecarmos nos diga o seu nome:\n");
+    printf("Ok, para comecarmos nos diga o seu nome com até 200 caracteres:\n");
     while (1)
     {
-        scanf("%s", i->reg.nome);
+        scanf(" %[^\n]", i->reg.nome);
         printf("Senhor(a) %s?\nCaso tenha errado, basta digitar o nome correto, caso esteja correto, digite 1:\nOpcao:", i->reg.nome);
         scanf("%d", &c);
         if (c == 0)

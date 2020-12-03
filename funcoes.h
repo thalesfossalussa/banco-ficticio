@@ -4,7 +4,7 @@
 // struct que abriga os dados da conta/registro do cliente
 typedef struct
 {
-    char nome[30];
+    char nome[200];
     int cpf;
     int cpfd;
     int dia;
