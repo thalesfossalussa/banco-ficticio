@@ -19,7 +19,7 @@ int main()
             mes = mes - 12;
             ano++;
         }
-        printf("\nData: %d/%d\n", mes, ano);
+        printf("\nBanco do Pequi, Data: %d/%d\n", mes, ano);
         printMenu();
         printf("Opcao:");
         scanf("%d", &select);
@@ -45,7 +45,7 @@ int main()
             break;
         case 5: //encerra o programa
             limpa(&contas);
-            printf("Ate a proxima! :\n");
+            printf("Ate a proxima!\n");
             fechar = 1;
             break;
         case 6:
@@ -53,7 +53,7 @@ int main()
             select = 0;
             break;
         default:
-            printf("Valor inválido, tente novamente\n\n");
+            printf("Valor invalido, tente novamente\n\n");
             break;
         }
     }
