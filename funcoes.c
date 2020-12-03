@@ -551,7 +551,7 @@ void info(void)
         if(a == 3){
             printf("\nExistem dois descontos automaticos que podem ser aplicados no saldo da conta, o das despesas mensais e a fatura do credito gasto quando o limite de credito e ultrapassado.\n");
             printf("A cada mes que se passa e aplicado um juro de 5% sobre o credito ja gasto.\n");
-            printf("Caso a soma das despesas e da fatura de credito descontada seja superior ao saldo disponivel na conta, ela sera negativada e impedida de realizar operacoes que gastariam debito ou credito ate que a situacao seja normalizada.\n\n");
+            printf("Caso a soma das despesas e da fatura de credito descontada seja superior ao saldo disponivel na conta, ela sera negativada e impedida de realizar operacoes que gastariam debito ou credito ate que a situacao seja normalizada ou o encerramento da conta.\n\n");
         }
         if (a == 0)
             break;
