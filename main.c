@@ -24,6 +24,7 @@ int main()
         printf("Opcao:");
         scanf("%d", &select);
         printf("\n");
+        
         switch (select)
         {
         case 1: //acessa a conta
